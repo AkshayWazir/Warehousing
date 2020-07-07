@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "531232720364",
+    "firebase_url": "https://cwc-wms.firebaseio.com",
+    "project_id": "cwc-wms",
+    "storage_bucket": "cwc-wms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531232720364:android:a7968bed6f5b08ec20ecc9",
+        "android_client_info": {
+          "package_name": "com.wazir.warehousing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531232720364-4qgshuemsm19jm1ua9ad7lu1q8ee828i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wazir.warehousing",
+            "certificate_hash": "c62ec548c03630d6895fd5b2345ba7a95f8c737c"
+          }
+        },
+        {
+          "client_id": "531232720364-ik0g07i07eug1ct9v2fccub05fguhkap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsJa8J3zro7Y4N7XVsNRFsIaH3LT77iXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531232720364-ik0g07i07eug1ct9v2fccub05fguhkap.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

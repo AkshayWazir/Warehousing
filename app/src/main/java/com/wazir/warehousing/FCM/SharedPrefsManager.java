@@ -1,0 +1,57 @@
+package com.wazir.warehousing.FCM;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import static com.wazir.warehousing.GloabalFunctions.Constants.USER_MANAGER;
+import static com.wazir.warehousing.GloabalFunctions.Constants.USER_WORKER;
+
+public class SharedPrefsManager {
+    private static final String SHARED_PREFS_NAME = "fcmsharedpreftoken";
+    private static final String KEY_ACCESS_TOKEN = "token";
+    private static final String KEY_USER_TYPE = "cwcuserManagerAccessTokenGrant";
+
+
+    private static Context mCtx;
+    private static SharedPrefsManager mInstance;
+
+    private SharedPrefsManager(Context context) {
+        mCtx = context;
+    }
+
+    public static synchronized SharedPrefsManager getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new SharedPrefsManager(context);
+        }
+        return mInstance;
+    }
+
+    public void storeToken(String token) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_ACCESS_TOKEN, token);
+        editor.apply();
+    }
+
+    public String getToken() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_ACCESS_TOKEN, null);
+    }
+
+    public boolean setUserType(String userType) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (userType.equals(USER_MANAGER)) {
+            editor.putString(KEY_USER_TYPE, USER_MANAGER);
+        } else if (userType.equals(USER_WORKER)) {
+            editor.putString(KEY_USER_TYPE, USER_WORKER);
+        }
+        editor.apply();
+        return true;
+    }
+
+    public String returnUserType() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_USER_TYPE, null);
+    }
+}
