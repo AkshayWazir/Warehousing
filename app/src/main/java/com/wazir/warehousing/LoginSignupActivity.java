@@ -73,7 +73,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                 sendOtpCommand.setEnabled(false);
                 loading.setVisibility(View.VISIBLE);
                 if (tempNumber.length() > 3) {
-                    if (!tempNumber.substring(0, 4).equals("+91")) {
+                    if (tempNumber.length() == 10) {
                         tempNumber = "+91" + tempNumber;
                     }
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -101,25 +101,25 @@ public class LoginSignupActivity extends AppCompatActivity {
     }
 
     void siWiOt(String otp, PhoneAuthCredential cred) {
-        PhoneAuthCredential credential;
+        final PhoneAuthCredential credential;
         if (cred == null && otp != null) {
             credential = PhoneAuthProvider.getCredential(verId, otp);
         } else {
             credential = cred;
         }
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        db.collection("USERS")
+                .document(tempNumber)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            db.collection("USERS")
-                                    .document(tempNumber)
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            final UserInfoType info = task.getResult().toObject(UserInfoType.class);
+                            mAuth.signInWithCredential(credential)
+                                    .addOnCompleteListener(LoginSignupActivity.this, new OnCompleteListener<AuthResult>() {
                                         @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
-                                                UserInfoType info = task.getResult().toObject(UserInfoType.class);
                                                 if (info.getUserType().equals(USER_WORKER)) {
                                                     startActivity(new Intent(LoginSignupActivity.this, WorkerMainActivity.class));
                                                     SharedPrefsManager.getInstance(LoginSignupActivity.this).setUserType(USER_WORKER);
@@ -129,11 +129,12 @@ public class LoginSignupActivity extends AppCompatActivity {
                                                     SharedPrefsManager.getInstance(LoginSignupActivity.this).setUserType(USER_MANAGER);
                                                     finish();
                                                 }
-                                            } else {
-                                                Toast.makeText(LoginSignupActivity.this, "Uer Don't Exists", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
+                        } else {
+                            Toast.makeText(LoginSignupActivity.this, "Uer Don't Exists", Toast.LENGTH_SHORT).show();
+                            sendOtpCommand.setEnabled(true);
                         }
                     }
                 });

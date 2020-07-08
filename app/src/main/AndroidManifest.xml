@@ -9,8 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Worker.WorkerMainActivity" />
-        <activity android:name=".Management.ManagerMainActivity" />
+        <activity
+            android:name=".Worker.WorkerMainActivity"
+            android:label="Staff Dashboard"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity
+            android:name=".Management.ManagerMainActivity"
+            android:label="Manager Dashboard"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <activity
             android:name=".LoginSignupActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
