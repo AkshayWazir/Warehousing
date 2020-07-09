@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
+import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.LoginSignupActivity;
 import com.wazir.warehousing.R;
 
@@ -22,6 +24,7 @@ public class WorkerMainActivity extends AppCompatActivity {
     ChipNavigationBar navigationBar;
     // Firebase Stuff
     FirebaseAuth mAuth;
+    private static final String TAG = "WorkerMainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,17 @@ public class WorkerMainActivity extends AppCompatActivity {
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
+                String token = SharedPrefsManager.getInstance(WorkerMainActivity.this).getToken();  // retrieved Token here
+                Log.d(TAG, "onReceive: " + token);
             }
         };
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseInstanceIdService.TOKEN_BROADCAST));
+
+        if (SharedPrefsManager.getInstance(WorkerMainActivity.this).getToken() != null) {
+            Log.d(TAG, "initUi: " + SharedPrefsManager.getInstance(WorkerMainActivity.this).getToken());
+        }
         navigationBar = findViewById(R.id.chip_nav_bar);
+
         navigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {

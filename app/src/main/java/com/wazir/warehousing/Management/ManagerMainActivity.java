@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +30,7 @@ public class ManagerMainActivity extends AppCompatActivity {
 
     // Firebase Stuff
     FirebaseAuth mAuth;
+    private String TAG = "Manager";
 
 
     @Override
@@ -44,10 +45,15 @@ public class ManagerMainActivity extends AppCompatActivity {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // TODO: 7/8/2020 retrieve Token here
+                String token = SharedPrefsManager.getInstance(ManagerMainActivity.this).getToken();  // retrieved Token here
+                Log.d(TAG, "onReceive: " + token);
             }
         };
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseInstanceIdService.TOKEN_BROADCAST));
+
+        if (SharedPrefsManager.getInstance(ManagerMainActivity.this).getToken() != null) {
+            Log.d(TAG, "initUi: " + SharedPrefsManager.getInstance(ManagerMainActivity.this).getToken());
+        }
         navigationBar = findViewById(R.id.chip_nav_bar);
         navigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
