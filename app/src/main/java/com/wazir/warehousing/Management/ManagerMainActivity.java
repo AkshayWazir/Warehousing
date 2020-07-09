@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
@@ -46,13 +46,20 @@ public class ManagerMainActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String token = SharedPrefsManager.getInstance(ManagerMainActivity.this).getToken();  // retrieved Token here
-                Log.d(TAG, "onReceive: " + token);
+
             }
         };
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseInstanceIdService.TOKEN_BROADCAST));
 
         if (SharedPrefsManager.getInstance(ManagerMainActivity.this).getToken() != null) {
-            Log.d(TAG, "initUi: " + SharedPrefsManager.getInstance(ManagerMainActivity.this).getToken());
+            String token = SharedPrefsManager.getInstance(ManagerMainActivity.this).getToken();
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+                FirebaseFirestore.getInstance()
+                        .collection("USERS")
+                        .document(userId)
+                        .update("userToken", token);
+            }
         }
         navigationBar = findViewById(R.id.chip_nav_bar);
         navigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {

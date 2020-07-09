@@ -1,9 +1,20 @@
 package com.wazir.warehousing.ModelObject;
 
 public class UserInfoType {
-    String userId, userType;
+    String userId, userType, userToken;
 
     public UserInfoType() {
+        userId = "";
+        userType = "";
+        userToken = "";
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public String getUserId() {

@@ -3,6 +3,8 @@ package com.wazir.warehousing.FCM;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.wazir.warehousing.MainActivity;
@@ -14,6 +16,7 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
 
     public static final String TOKEN_BROADCAST = "myfcmtokenbroadcast";
     MyNotificationManager myNotificationManager;
+    FirebaseFirestore db;
 
     @Override
     public void onNewToken(String token) {
@@ -23,6 +26,8 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
 
     private void storeToken(String token) {
         SharedPrefsManager.getInstance(getApplicationContext()).storeToken(token);
+        db = FirebaseFirestore.getInstance();
+        String userId = "";
     }
 
     @Override

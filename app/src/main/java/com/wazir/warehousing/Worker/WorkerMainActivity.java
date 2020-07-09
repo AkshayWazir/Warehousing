@@ -9,28 +9,51 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
+import com.wazir.warehousing.Fragments.FragmentActiChecker;
+import com.wazir.warehousing.Fragments.FragmentContact;
+import com.wazir.warehousing.Fragments.FragmentSysStatus;
+import com.wazir.warehousing.FragmentsClickEvent;
 import com.wazir.warehousing.LoginSignupActivity;
 import com.wazir.warehousing.R;
 
-public class WorkerMainActivity extends AppCompatActivity {
+public class WorkerMainActivity extends AppCompatActivity implements FragmentsClickEvent {
     ChipNavigationBar navigationBar;
     // Firebase Stuff
     FirebaseAuth mAuth;
     private static final String TAG = "WorkerMainActivity";
+    FrameLayout fragContainer;
+
+    FragmentContact contactFragment;
+    FragmentSysStatus systemFragment;
+    FragmentActiChecker activityFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_worker_main);
+        initFragments();
         initUi();
+    }
+
+    void initFragments() {
+        contactFragment = new FragmentContact();
+        contactFragment.setEvent(this);
+
+        systemFragment = new FragmentSysStatus();
+        systemFragment.setEvents(this);
+
+        activityFragment = new FragmentActiChecker();
+        activityFragment.setEvent(this);
     }
 
     void initUi() {
@@ -45,7 +68,14 @@ public class WorkerMainActivity extends AppCompatActivity {
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseInstanceIdService.TOKEN_BROADCAST));
 
         if (SharedPrefsManager.getInstance(WorkerMainActivity.this).getToken() != null) {
-            Log.d(TAG, "initUi: " + SharedPrefsManager.getInstance(WorkerMainActivity.this).getToken());
+            String token = SharedPrefsManager.getInstance(WorkerMainActivity.this).getToken();
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+                FirebaseFirestore.getInstance()
+                        .collection("USERS")
+                        .document(userId)
+                        .update("userToken", token);
+            }
         }
         navigationBar = findViewById(R.id.chip_nav_bar);
 
@@ -54,18 +84,19 @@ public class WorkerMainActivity extends AppCompatActivity {
             public void onItemSelected(int i) {
                 switch (i) {
                     case R.id.id_activity_checker:
-                        // TODO: 7/8/2020 open activity checker
+                        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, activityFragment).commit();
                         break;
                     case R.id.id_contact:
-                        // TODO: 7/8/2020 open contacts
+                        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, contactFragment).commit();
                         break;
                     case R.id.id_system_status:
-                        // TODO: 7/8/2020 open system Status
+                        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, systemFragment).commit();
                         break;
                 }
             }
         });
 
+        fragContainer = findViewById(R.id.worker_fragment_container);
     }
 
     @Override
