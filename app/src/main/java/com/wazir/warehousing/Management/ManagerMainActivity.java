@@ -17,15 +17,23 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
+import com.wazir.warehousing.Fragments.FragmentActiChecker;
+import com.wazir.warehousing.Fragments.FragmentContact;
+import com.wazir.warehousing.Fragments.FragmentSysStatus;
+import com.wazir.warehousing.FragmentsClickEvent;
 import com.wazir.warehousing.LoginSignupActivity;
 import com.wazir.warehousing.R;
 
-public class ManagerMainActivity extends AppCompatActivity {
+public class ManagerMainActivity extends AppCompatActivity implements FragmentsClickEvent {
     // JAVA stuff
     private BroadcastReceiver broadcastReceiver;
 
     // Andro Views
     ChipNavigationBar navigationBar;
+    FragmentContact contactFragment;
+    FragmentSysStatus systemFragment;
+    FragmentActiChecker activityFragment;
+
 
 
     // Firebase Stuff
@@ -37,7 +45,19 @@ public class ManagerMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_main);
+        initFragments();
         initUi();
+    }
+
+    void initFragments() {
+        contactFragment = new FragmentContact();
+        contactFragment.setEvent(this);
+
+        systemFragment = new FragmentSysStatus();
+        systemFragment.setEvents(this);
+
+        activityFragment = new FragmentActiChecker();
+        activityFragment.setEvent(this);
     }
 
     void initUi() {
@@ -67,13 +87,13 @@ public class ManagerMainActivity extends AppCompatActivity {
             public void onItemSelected(int i) {
                 switch (i) {
                     case R.id.id_activity_checker:
-                        // TODO: 7/8/2020 open activity checker
+                        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, activityFragment).commit();
                         break;
                     case R.id.id_contact:
-                        // TODO: 7/8/2020 open contacts
+                        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, contactFragment).commit();
                         break;
                     case R.id.id_system_status:
-                        // TODO: 7/8/2020 open system Status
+                        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, systemFragment).commit();
                         break;
                 }
             }
