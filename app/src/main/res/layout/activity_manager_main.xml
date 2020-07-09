@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.wazir.warehousing.Management.ManagerMainActivity">
+    <FrameLayout
+        android:id="@+id/worker_fragment_container"
+        android:layout_width="0sp"
+        android:layout_height="0sp"
+        app:layout_constraintBottom_toTopOf="@+id/chip_nav_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/chip_nav_bar"

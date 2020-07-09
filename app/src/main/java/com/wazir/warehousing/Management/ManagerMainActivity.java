@@ -100,6 +100,17 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseInstanceIdService.TOKEN_BROADCAST));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
