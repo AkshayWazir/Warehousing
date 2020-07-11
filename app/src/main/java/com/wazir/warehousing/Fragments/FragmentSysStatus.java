@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.wazir.warehousing.FragmentsClickEvent;
+import com.wazir.warehousing.Interfaces.FragmentsClickEvent;
 import com.wazir.warehousing.R;
 
 public class FragmentSysStatus extends Fragment {

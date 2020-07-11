@@ -44,4 +44,14 @@ dependencies {
     // bottom nav Library
     implementation 'com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.2'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.72'
+
+    // Circular ImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // volley
+    implementation 'com.android.volley:volley:1.1.1'
+
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

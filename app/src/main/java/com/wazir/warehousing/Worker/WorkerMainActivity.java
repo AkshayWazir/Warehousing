@@ -22,7 +22,7 @@ import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.Fragments.FragmentActiChecker;
 import com.wazir.warehousing.Fragments.FragmentContact;
 import com.wazir.warehousing.Fragments.FragmentSysStatus;
-import com.wazir.warehousing.FragmentsClickEvent;
+import com.wazir.warehousing.Interfaces.FragmentsClickEvent;
 import com.wazir.warehousing.LoginSignupActivity;
 import com.wazir.warehousing.R;
 
@@ -46,8 +46,7 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
     }
 
     void initFragments() {
-        contactFragment = new FragmentContact();
-        contactFragment.setEvent(this);
+        contactFragment = new FragmentContact(this, this);
 
         systemFragment = new FragmentSysStatus();
         systemFragment.setEvents(this);

@@ -1,4 +1,4 @@
-package com.wazir.warehousing;
+package com.wazir.warehousing.Interfaces;
 
 public interface FragmentsClickEvent {
 }
