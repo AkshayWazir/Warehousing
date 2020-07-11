@@ -54,6 +54,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                 interact.callUser(objects.get(position).getContact());
             }
         });
+        holder.alertCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interact.alertUser("someToken");
+            }
+        });
     }
 
     @Override

@@ -3,18 +3,18 @@ package com.wazir.warehousing.FCM;
 import android.content.Intent;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.wazir.warehousing.MainActivity;
 
-import static com.airbnb.lottie.L.TAG;
+
 
 
 public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
 
     public static final String TOKEN_BROADCAST = "myfcmtokenbroadcast";
+    private static final String TAG = "MyFCMInstance";
     MyNotificationManager myNotificationManager;
     FirebaseFirestore db;
 
@@ -33,11 +33,11 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
-        notifyUser(remoteMessage.getFrom(), remoteMessage.getNotification().getBody());
+        notifyUser(remoteMessage);
     }
 
-    public void notifyUser(String from, String notification) {
+    public void notifyUser(RemoteMessage message) {
         myNotificationManager = new MyNotificationManager(getApplicationContext());
-        myNotificationManager.showNotification(from, notification, new Intent(getApplicationContext(), MainActivity.class));
+        myNotificationManager.showNotification(message, new Intent(getApplicationContext(), MainActivity.class));
     }
 }

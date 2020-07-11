@@ -5,11 +5,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.messaging.RemoteMessage;
 import com.wazir.warehousing.R;
+
+import static com.wazir.warehousing.App.CHANNEL_1;
 
 public class MyNotificationManager {
     private Context ctx;
@@ -19,19 +21,17 @@ public class MyNotificationManager {
         this.ctx = ctx;
     }
 
-    public void showNotification(String from, String notification, Intent intent) {
+    public void showNotification(RemoteMessage message, Intent intent) {
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx, CHANNEL_1);
         Notification notification1 = builder
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
-                .setContentTitle(from)
-                .setContentText(notification)
-                .setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.mipmap.ic_launcher))
+                .setContentTitle(message.getNotification().getTitle())
+                .setContentText(message.getNotification().getBody())
                 .build();
-        notification1.flags |= Notification.FLAG_AUTO_CANCEL;
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification1);
     }

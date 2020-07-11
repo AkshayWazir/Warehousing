@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,8 +14,16 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
@@ -27,7 +36,12 @@ import com.wazir.warehousing.LoginSignupActivity;
 import com.wazir.warehousing.ModelObject.ContactObject;
 import com.wazir.warehousing.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ManagerMainActivity extends AppCompatActivity implements FragmentsClickEvent, ContactInteract {
     // JAVA stuff
@@ -38,7 +52,7 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
     FragmentContact contactFragment;
     FragmentSysStatus systemFragment;
     FragmentActiChecker activityFragment;
-
+    String URL = "https://fcm.googleapis.com/fcm/send";
 
 
     // Firebase Stuff
@@ -52,6 +66,7 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
         setContentView(R.layout.activity_manager_main);
         initFragments();
         initUi();
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
     }
 
     void initFragments() {
@@ -161,4 +176,51 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
         startActivity(intent);
     }
 
+    @Override
+    public void alertUser(String token) {
+        RequestQueue mRequest = Volley.newRequestQueue(this);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("to", "/topics/" + "news");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title", "any title");
+            notificationObj.put("body", "any body");
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("brandId", "puma");
+            extraData.put("category", "Shoes");
+
+
+            json.put("notification", notificationObj);
+            json.put("data", extraData);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("MUR", "onResponse: ");
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("MUR", "onError: " + error.networkResponse);
+                        }
+                    }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("Authorization", "key=AAAAe6_wBew:APA91bHeK8TxWNjRsVMKbWyBLvotl5VfPUBpQH65eH9yZFQuw9cxm-qBBtJOUo-37vFAHqFJ3x5ssWv0jTaPJQMY2OTK-Gh50kAqJPpNdwUOnqodknI-aSml-R7aoOl7mVB3FjMVPnix");
+                    return header;
+                }
+            };
+            mRequest.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
