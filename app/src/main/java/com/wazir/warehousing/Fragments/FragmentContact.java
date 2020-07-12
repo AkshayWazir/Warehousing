@@ -42,7 +42,7 @@ public class FragmentContact extends Fragment {
         return layout;
     }
 
-    public void setupContacts() {
+    public void setupContacts()     {
         contactsRcView.setLayoutManager(new LinearLayoutManager(mContext));
         ContactAdapter adapter = new ContactAdapter(fetchContacts(), mContext);
         adapter.setInteract(contactInteract);

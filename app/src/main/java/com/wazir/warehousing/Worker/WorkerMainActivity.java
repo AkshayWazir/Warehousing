@@ -22,11 +22,12 @@ import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.Fragments.FragmentActiChecker;
 import com.wazir.warehousing.Fragments.FragmentContact;
 import com.wazir.warehousing.Fragments.FragmentSysStatus;
+import com.wazir.warehousing.Interfaces.CheckerInteract;
 import com.wazir.warehousing.Interfaces.FragmentsClickEvent;
 import com.wazir.warehousing.LoginSignupActivity;
 import com.wazir.warehousing.R;
 
-public class WorkerMainActivity extends AppCompatActivity implements FragmentsClickEvent {
+public class WorkerMainActivity extends AppCompatActivity implements FragmentsClickEvent, CheckerInteract {
     ChipNavigationBar navigationBar;
     // Firebase Stuff
     FirebaseAuth mAuth;
@@ -51,7 +52,7 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
         systemFragment = new FragmentSysStatus();
         systemFragment.setEvents(this);
 
-        activityFragment = new FragmentActiChecker();
+        activityFragment = new FragmentActiChecker(this, this, this);
         activityFragment.setEvent(this);
     }
 
@@ -118,5 +119,10 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void updateChecker(String level1Id, String level2Id) {
+
     }
 }

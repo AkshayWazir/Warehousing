@@ -23,8 +23,9 @@
         android:layout_marginStart="8dp"
         android:fontFamily="@font/montserrat"
         android:text="TextView"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintStart_toEndOf="@+id/profile_picture"
         app:layout_constraintTop_toTopOf="@+id/profile_picture" />
 
@@ -35,7 +36,8 @@
         android:fontFamily="@font/open_sans"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/profile_picture"
-        app:layout_constraintStart_toStartOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -45,8 +47,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="#5784BA"
+        android:fadingEdgeLength="3dp"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
         app:cardCornerRadius="7dp"
+        app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cardView5"
         app:layout_constraintHorizontal_bias="0.5"
@@ -88,8 +92,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="#5784BA"
+        android:fadingEdgeLength="3dp"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
         app:cardCornerRadius="7dp"
+        app:cardElevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cardView2"
