@@ -3,11 +3,16 @@ package com.wazir.warehousing;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 
+import static com.wazir.warehousing.GloabalFunctions.Constants.CHANNEL_1;
+import static com.wazir.warehousing.GloabalFunctions.Constants.CHANNEL_2;
+
 public class App extends Application {
-    public static final String CHANNEL_1 = "channel1";
-    public static final String CHANNEL_2 = "channel23";
+
 
     @Override
     public void onCreate() {
@@ -17,11 +22,17 @@ public class App extends Application {
 
     private void createNotiChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            AudioAttributes att = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
             NotificationChannel channel1 = new NotificationChannel(
                     CHANNEL_1,
                     "channel 1",
                     NotificationManager.IMPORTANCE_HIGH
             );
+            channel1.setSound(uri, att);
             channel1.setDescription("ALERT_CHANNEL_1");
 
 

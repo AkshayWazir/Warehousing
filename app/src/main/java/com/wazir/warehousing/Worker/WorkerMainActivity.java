@@ -1,9 +1,12 @@
 package com.wazir.warehousing.Worker;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,7 +16,16 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -23,16 +35,24 @@ import com.wazir.warehousing.Fragments.FragmentActiChecker;
 import com.wazir.warehousing.Fragments.FragmentContact;
 import com.wazir.warehousing.Fragments.FragmentSysStatus;
 import com.wazir.warehousing.Interfaces.CheckerInteract;
+import com.wazir.warehousing.Interfaces.ContactInteract;
 import com.wazir.warehousing.Interfaces.FragmentsClickEvent;
 import com.wazir.warehousing.LoginSignupActivity;
 import com.wazir.warehousing.R;
 
-public class WorkerMainActivity extends AppCompatActivity implements FragmentsClickEvent, CheckerInteract {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class WorkerMainActivity extends AppCompatActivity implements FragmentsClickEvent, CheckerInteract, ContactInteract {
     ChipNavigationBar navigationBar;
     // Firebase Stuff
     FirebaseAuth mAuth;
     private static final String TAG = "WorkerMainActivity";
     FrameLayout fragContainer;
+    String URL = "https://fcm.googleapis.com/fcm/send";
 
     FragmentContact contactFragment;
     FragmentSysStatus systemFragment;
@@ -44,10 +64,20 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
         setContentView(R.layout.activity_worker_main);
         initFragments();
         initUi();
+        if (!checkPermission()) {
+            ActivityCompat.requestPermissions(WorkerMainActivity.this,
+                    new String[]{Manifest.permission.CALL_PHONE},
+                    112);
+        }
+    }
+
+    boolean checkPermission() {
+        return ContextCompat.checkSelfPermission(WorkerMainActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED;
     }
 
     void initFragments() {
         contactFragment = new FragmentContact(this, this);
+        contactFragment.setContactInteract(this);
 
         systemFragment = new FragmentSysStatus();
         systemFragment.setEvents(this);
@@ -124,5 +154,61 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
     @Override
     public void updateChecker(String level1Id, String level2Id) {
 
+    }
+
+    @Override
+    public void callUser(String number) {
+        String uri = "tel:" + number.trim();
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse(uri));
+        startActivity(intent);
+    }
+
+    @Override
+    public void alertUser(String token) {
+        RequestQueue mRequest = Volley.newRequestQueue(this);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("to", "cxrOtHC5RAGPRBHZ49JnTJ:APA91bGxx7nvTnHZGTYR1zYNpVrUdCq06UVUDVzJ2ER6ZRx8fBhK1f5UMTX6BiLLHxxL7fQA2myKaQ1D068K3Yv3x68P4sQ9tkFK1VEYGryIQ2PGnPSvUqQE-DsOHbK8eZyeBcoWiXEz");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title", "any title");
+            notificationObj.put("body", "any body");
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("brandId", "puma");
+            extraData.put("category", "Shoes");
+
+
+            json.put("notification", notificationObj);
+            json.put("data", extraData);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("MUR", "onResponse: ");
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("MUR", "onError: " + error.networkResponse);
+                        }
+                    }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("Authorization", "key=AAAAe6_wBew:APA91bHeK8TxWNjRsVMKbWyBLvotl5VfPUBpQH65eH9yZFQuw9cxm-qBBtJOUo-37vFAHqFJ3x5ssWv0jTaPJQMY2OTK-Gh50kAqJPpNdwUOnqodknI-aSml-R7aoOl7mVB3FjMVPnix");
+                    return header;
+                }
+            };
+            mRequest.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
