@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,30 +60,7 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
             ((HeaderViewHolder) holder).header.setText(obj.getTitle());
         } else {
             final BodyObj obj = (BodyObj) objects.get(position);
-            ((BodyChecker) holder).title.setText(obj.getTitle());
-            if (obj.isChecked()) {
-                ((BodyChecker) holder).checkMark.setProgress(1);
-            }
-            ((BodyChecker) holder).checkMark.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (obj.isChecked()) {
-                        ((BodyObj) objects.get(position)).setChecked(false);
-                        ((BodyChecker) holder).checkMark.setProgress(0);
-                    } else {
-                        ((BodyObj) objects.get(position)).setChecked(true);
-                        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator animation) {
-                                ((BodyChecker) holder).checkMark.setProgress(animation.getAnimatedFraction());
-                            }
-                        });
-                        animator.start();
-                    }
-                    interact.updateChecker(obj.getLevel1Id(), obj.getLevel2Id());
-                }
-            });
+
         }
     }
 
@@ -103,13 +79,11 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     static class BodyChecker extends RecyclerView.ViewHolder {
-        LottieAnimationView checkMark;
         TextView title;
 
         public BodyChecker(@NonNull View itemView) {
             super(itemView);
-            checkMark = itemView.findViewById(R.id.lottieAnimationView);
-            title = itemView.findViewById(R.id.textView9);
+            title = itemView.findViewById(R.id.task_title_id);
         }
     }
 }
