@@ -1,14 +1,49 @@
 package com.wazir.warehousing.ModelObject;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class BodyObj {
     boolean checked;
-    String title, level1Id, level2Id;
+    String title,description, level1Id, level2Id;
+    Date timeOfTask;
+    ArrayList<Assignees> assignees;
 
-    public BodyObj(boolean checked, String title) {
+    public BodyObj() {
+    }
+
+    public BodyObj(boolean checked, String title, String description, String level1Id, String level2Id, Date timeOfTask, ArrayList<Assignees> assignees) {
         this.checked = checked;
         this.title = title;
-        this.level1Id = "";
-        this.level2Id = "";
+        this.description = description;
+        this.level1Id = level1Id;
+        this.level2Id = level2Id;
+        this.timeOfTask = timeOfTask;
+        this.assignees = assignees;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getTimeOfTask() {
+        return timeOfTask;
+    }
+
+    public void setTimeOfTask(Date timeOfTask) {
+        this.timeOfTask = timeOfTask;
+    }
+
+    public ArrayList<Assignees> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(ArrayList<Assignees> assignees) {
+        this.assignees = assignees;
     }
 
     public String getLevel1Id() {

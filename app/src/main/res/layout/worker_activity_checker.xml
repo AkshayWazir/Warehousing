@@ -38,50 +38,32 @@
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/open_sans"
                 android:text="Description"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="@+id/task_title_id"
                 app:layout_constraintTop_toBottomOf="@+id/task_title_id" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/id_status_card"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/id_checked"
+                android:layout_width="0sp"
+                android:layout_height="0sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_rawRes="@raw/check_completed" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:cardBackgroundColor="@color/softOrange"
-                app:cardCornerRadius="21dp"
-                app:layout_constraintBottom_toBottomOf="@+id/task_title_id"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/task_title_id">
-
-                <TextView
-                    android:id="@+id/id_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="Status"
-                    android:textColor="@color/white"
-                    android:textSize="12dp" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/id_assign_id"
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/task_descri_id"
-                app:layout_constraintStart_toStartOf="@+id/task_title_id"
-                app:layout_constraintTop_toBottomOf="@+id/task_descri_id"
-                tools:listitem="@layout/worker_name_tag_ayout" />
-
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

@@ -8,4 +8,6 @@
     <color name="white">#ffffff</color>
     <color name="darkBlue">#26474E</color>
     <color name="softOrange">#F27348</color>
+    <color name="g_green">#0F9D58</color>
+    <color name="g_red">#DB4437</color>
 </resources>

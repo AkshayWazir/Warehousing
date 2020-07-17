@@ -84,6 +84,7 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
 
         activityFragment = new FragmentActiChecker(this, this, this);
         activityFragment.setEvent(this);
+        activityFragment.setWorker(true);
     }
 
     void initUi() {
