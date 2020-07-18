@@ -2,7 +2,6 @@ package com.wazir.warehousing.Adapters;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +22,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.airbnb.lottie.L.TAG;
 
 public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ArrayList<Object> objects;
     Context context;
     CheckerInteract interact;
     boolean worker = false;
+    String TAG = "Adapter Events";
 
     public AdapterActivityChecker(ArrayList<Object> objects, Context context) {
         this.objects = objects;
@@ -82,6 +81,8 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
                 ((WorkerBody) holder).description.setText(obj.getDescription());
                 if (obj.isChecked()) {
                     ((WorkerBody) holder).check.setVisibility(View.GONE);
+                } else {
+                    ((WorkerBody) holder).check.setVisibility(View.VISIBLE);
                 }
                 ((WorkerBody) holder).check.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -92,17 +93,15 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
                             public void onAnimationUpdate(ValueAnimator animation) {
                                 animation.setDuration(2500);
                                 ((WorkerBody) holder).check.setProgress(animation.getAnimatedFraction());
-                                Log.d(TAG, "onAnimationUpdate: " + animation.getAnimatedFraction());
                                 if (animation.getAnimatedFraction() == 1f) {
                                     obj.setChecked(true);
                                     objects.set(position, obj);
                                     interact.updateChecker(obj.getLevel1Id(), obj.getLevel2Id());
-                                    notifyDataSetChanged();
+                                    notifyItemChanged(position);
                                 }
                             }
                         });
                         animator.start();
-
                     }
                 });
                 String format = "dd/MM";

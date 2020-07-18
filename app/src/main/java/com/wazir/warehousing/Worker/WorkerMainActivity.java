@@ -79,7 +79,7 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
         contactFragment = new FragmentContact(this, this);
         contactFragment.setContactInteract(this);
 
-        systemFragment = new FragmentSysStatus();
+        systemFragment = new FragmentSysStatus(this);
         systemFragment.setEvents(this);
 
         activityFragment = new FragmentActiChecker(this, this, this);

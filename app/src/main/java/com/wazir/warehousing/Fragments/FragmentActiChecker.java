@@ -63,33 +63,33 @@ public class FragmentActiChecker extends Fragment {
     }
 
     ArrayList<Object> getTasks() throws ParseException {
-        BodyObj obj = new BodyObj();
-        obj.setTitle("Some task Title");
-        obj.setDescription("Some Description Description Description DescriptionDescriptionDescription v v Descriptionv");
-        obj.setAssignees(new ArrayList<Assignees>() {
-            {
-                add(new Assignees("Somme Name ", "Rajesh"));
-            }
-
-            {
-                add(new Assignees("Somme Name ", "Rajesh"));
-            }
-
-            {
-                add(new Assignees("Somme Name ", "Rajesh"));
-            }
-        });
-        obj.setChecked(false);
-        String string = "02/04/2020";
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-        Date date = format.parse(string);
-        obj.setTimeOfTask(date);
-        obj.setLevel1Id("SOme Id 1");
-        obj.setLevel2Id("Some id 2");
         ArrayList<Object> objects = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             objects.add(new TitleObj("Some Title : " + i));
             for (int j = 0; j < 3; j++) {
+                BodyObj obj = new BodyObj();
+                obj.setTitle("Some task Title");
+                obj.setDescription("Some Description Description Description DescriptionDescriptionDescription v v Descriptionv");
+                obj.setAssignees(new ArrayList<Assignees>() {
+                    {
+                        add(new Assignees("Somme Name ", "Rajesh"));
+                    }
+
+                    {
+                        add(new Assignees("Somme Name ", "Rakesh"));
+                    }
+
+                    {
+                        add(new Assignees("Somme Name ", "Ramesh"));
+                    }
+                });
+                obj.setChecked(false);
+                String string = "02/04/2020";
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                Date date = format.parse(string);
+                obj.setTimeOfTask(date);
+                obj.setLevel1Id("SOme Id 1");
+                obj.setLevel2Id("Some id 2");
                 objects.add(obj);
             }
         }
