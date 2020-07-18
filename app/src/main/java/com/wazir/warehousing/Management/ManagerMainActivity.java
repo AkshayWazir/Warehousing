@@ -109,7 +109,9 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
                         .update("userToken", token);
             }
         }
+        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, activityFragment).commit();
         navigationBar = findViewById(R.id.chip_nav_bar);
+        navigationBar.setItemSelected(R.id.id_activity_checker, true);
         navigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {

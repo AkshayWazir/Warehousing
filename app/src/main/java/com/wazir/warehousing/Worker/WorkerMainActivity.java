@@ -109,7 +109,8 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
             }
         }
         navigationBar = findViewById(R.id.chip_nav_bar);
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, activityFragment).commit();
+        navigationBar.setItemSelected(R.id.id_activity_checker, true);
         navigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
@@ -147,6 +148,9 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
                 mAuth.signOut();
                 startActivity(new Intent(this, LoginSignupActivity.class));
                 finish();
+                break;
+            case (R.id.id_support):
+                // TODO: 7/18/2020 launch support here
                 break;
         }
         return super.onOptionsItemSelected(item);
