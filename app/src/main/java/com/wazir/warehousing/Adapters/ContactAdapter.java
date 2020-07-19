@@ -43,8 +43,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContactViewHolder holder, final int position) {
-        ContactObject obj = objects.get(position);
+    public void onBindViewHolder(@NonNull final ContactViewHolder holder, final int position) {
+        final ContactObject obj = objects.get(position);
         Glide.with(context).load(obj.getProfilePicture()).into(holder.profilePicture);
         holder.name.setText(obj.getName());
         holder.designation.setText(obj.getPost());
@@ -57,7 +57,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         holder.alertCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interact.alertUser("someToken");
+                interact.alertUser(obj.getUserToken());
             }
         });
     }

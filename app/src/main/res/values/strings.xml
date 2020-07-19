@@ -4,4 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="completedStr">Completed</string>
     <string name="incompleteStr">Incomplete</string>
+    <string name="apiKey">AAAAe6_wBew:APA91bHeK8TxWNjRsVMKbWyBLvotl5VfPUBpQH65eH9yZFQuw9cxm-qBBtJOUo-37vFAHqFJ3x5ssWv0jTaPJQMY2OTK-Gh50kAqJPpNdwUOnqodknI-aSml-R7aoOl7mVB3FjMVPnix</string>
+    <string name="rootName">ACTIVITIES</string>
 </resources>

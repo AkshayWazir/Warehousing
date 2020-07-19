@@ -1,12 +1,21 @@
 package com.wazir.warehousing.ModelObject;
 
 public class UserInfoType {
-    String userId, userType, userToken;
+    String userId, userType, userToken, warehouseId;
 
     public UserInfoType() {
         userId = "";
         userType = "";
         userToken = "";
+        warehouseId = "";
+    }
+
+    public String getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(String warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
     public String getUserToken() {

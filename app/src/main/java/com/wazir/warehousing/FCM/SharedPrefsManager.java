@@ -10,6 +10,7 @@ public class SharedPrefsManager {
     private static final String SHARED_PREFS_NAME = "fcmsharedpreftoken";
     private static final String KEY_ACCESS_TOKEN = "token";
     private static final String KEY_USER_TYPE = "cwcuserManagerAccessTokenGrant";
+    private static final String WAREHOUSE_ID = "SomeWarehouseId";
 
 
     private static Context mCtx;
@@ -31,6 +32,18 @@ public class SharedPrefsManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_ACCESS_TOKEN, token);
         editor.apply();
+    }
+
+    public void storeWarehouseId(String id) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(WAREHOUSE_ID, id);
+        editor.apply();
+    }
+
+    public String getWarehouseId() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(WAREHOUSE_ID, null);
     }
 
     public String getToken() {

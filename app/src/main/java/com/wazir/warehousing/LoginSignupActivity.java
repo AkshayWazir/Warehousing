@@ -115,6 +115,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful() && task.getResult().exists()) {
                             final UserInfoType info = task.getResult().toObject(UserInfoType.class);
+                            SharedPrefsManager.getInstance(LoginSignupActivity.this).storeWarehouseId(info.getWarehouseId());
                             mAuth.signInWithCredential(credential)
                                     .addOnCompleteListener(LoginSignupActivity.this, new OnCompleteListener<AuthResult>() {
                                         @Override

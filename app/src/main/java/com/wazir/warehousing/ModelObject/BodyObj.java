@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class BodyObj {
     boolean checked;
-    String title,description, level1Id, level2Id;
+    String title, description, level1Id, level2Id;
     Date timeOfTask;
     ArrayList<Assignees> assignees;
 

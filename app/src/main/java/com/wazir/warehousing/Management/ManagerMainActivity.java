@@ -181,7 +181,7 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
         RequestQueue mRequest = Volley.newRequestQueue(this);
         JSONObject json = new JSONObject();
         try {
-            json.put("to", "cxrOtHC5RAGPRBHZ49JnTJ:APA91bGxx7nvTnHZGTYR1zYNpVrUdCq06UVUDVzJ2ER6ZRx8fBhK1f5UMTX6BiLLHxxL7fQA2myKaQ1D068K3Yv3x68P4sQ9tkFK1VEYGryIQ2PGnPSvUqQE-DsOHbK8eZyeBcoWiXEz");
+            json.put("to", token);
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title", "any title");
             notificationObj.put("body", "any body");
@@ -200,7 +200,7 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("MUR", "onResponse: ");
+                            Log.d("MUR", "onResponse: " + response.toString());
                         }
                     },
                     new Response.ErrorListener() {
@@ -214,7 +214,7 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> header = new HashMap<>();
                     header.put("content-type", "application/json");
-                    header.put("Authorization", "key=AAAAe6_wBew:APA91bHeK8TxWNjRsVMKbWyBLvotl5VfPUBpQH65eH9yZFQuw9cxm-qBBtJOUo-37vFAHqFJ3x5ssWv0jTaPJQMY2OTK-Gh50kAqJPpNdwUOnqodknI-aSml-R7aoOl7mVB3FjMVPnix");
+                    header.put("Authorization", "key=" + getApplicationContext().getResources().getString(R.string.apiKey));
                     return header;
                 }
             };

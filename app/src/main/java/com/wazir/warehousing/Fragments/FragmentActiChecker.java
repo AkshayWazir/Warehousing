@@ -6,14 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.wazir.warehousing.Adapters.AdapterActivityChecker;
+import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.Interfaces.CheckerInteract;
 import com.wazir.warehousing.Interfaces.FragmentsClickEvent;
-import com.wazir.warehousing.ModelObject.Assignees;
 import com.wazir.warehousing.ModelObject.BodyObj;
 import com.wazir.warehousing.ModelObject.TitleObj;
 import com.wazir.warehousing.R;
@@ -56,44 +62,67 @@ public class FragmentActiChecker extends Fragment {
 
     void setRcView() throws ParseException {
         containerRcView.setLayoutManager(new LinearLayoutManager(context));
-        AdapterActivityChecker adapterActivityChecker = new AdapterActivityChecker(getTasks(), context);
-        adapterActivityChecker.setWorker(worker);
-        adapterActivityChecker.setInteract(interact);
-        containerRcView.setAdapter(adapterActivityChecker);
+        getTasks();
     }
 
-    ArrayList<Object> getTasks() throws ParseException {
-        ArrayList<Object> objects = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            objects.add(new TitleObj("Some Title : " + i));
-            for (int j = 0; j < 3; j++) {
-                BodyObj obj = new BodyObj();
-                obj.setTitle("Some task Title");
-                obj.setDescription("Some Description Description Description DescriptionDescriptionDescription v v Descriptionv");
-                obj.setAssignees(new ArrayList<Assignees>() {
-                    {
-                        add(new Assignees("Somme Name ", "Rajesh"));
-                    }
-
-                    {
-                        add(new Assignees("Somme Name ", "Rakesh"));
-                    }
-
-                    {
-                        add(new Assignees("Somme Name ", "Ramesh"));
+    void getTasks() {
+        final ArrayList<Object> objects = new ArrayList<>();
+        FirebaseFirestore.getInstance().collection("ACTIVITIES")
+                .document(SharedPrefsManager.getInstance(context).getWarehouseId())
+                .collection("Activities")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            if (snapshot.contains("checked")) {
+                                BodyObj obj = snapshot.toObject(BodyObj.class);
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                                try {
+                                    Date date = sdf.parse(snapshot.getString("timeDate"));
+                                    obj.setTimeOfTask(date);
+                                } catch (ParseException ex) {
+                                    ex.printStackTrace();
+                                }
+                                objects.add(obj);
+                            } else {
+                                objects.add(queryDocumentSnapshots.toObjects(TitleObj.class));
+                            }
+                        }
+                        AdapterActivityChecker adapterActivityChecker = new AdapterActivityChecker(objects, context);
+                        adapterActivityChecker.setWorker(worker);
+                        adapterActivityChecker.setInteract(interact);
+                        containerRcView.setAdapter(adapterActivityChecker);
                     }
                 });
-                obj.setChecked(false);
-                String string = "02/04/2020";
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-                Date date = format.parse(string);
-                obj.setTimeOfTask(date);
-                obj.setLevel1Id("SOme Id 1");
-                obj.setLevel2Id("Some id 2");
-                objects.add(obj);
-            }
-        }
-        return objects;
+//        for (int i = 0; i < 10; i++) {
+//            objects.add(new TitleObj("Some Title : " + i));
+//            for (int j = 0; j < 3; j++) {
+//                BodyObj obj = new BodyObj();
+//                obj.setTitle("Some task Title");
+//                obj.setDescription("Some Description Description Description DescriptionDescriptionDescription v v Descriptionv");
+//                obj.setAssignees(new ArrayList<Assignees>() {
+//                    {
+//                        add(new Assignees("Somme Name ", "Rajesh"));
+//                    }
+//
+//                    {
+//                        add(new Assignees("Somme Name ", "Rakesh"));
+//                    }
+//
+//                    {
+//                        add(new Assignees("Somme Name ", "Ramesh"));
+//                    }
+//                });
+//                obj.setChecked(false);
+//                String string = "02/04/2020";
+//                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+//                Date date = format.parse(string);
+//                obj.setTimeOfTask(date);
+//                obj.setLevel1Id("SOme Id 1");
+//                obj.setLevel2Id("Some id 2");
+//                objects.add(obj);
+//            }
+//        }
     }
 
     public void setEvent(FragmentsClickEvent event) {
