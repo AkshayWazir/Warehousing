@@ -2,6 +2,7 @@ package com.wazir.warehousing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -40,6 +41,8 @@ public class LoginSignupActivity extends AppCompatActivity {
 
     // JAVA objects
     String verId, tempNumber;
+    UserInfoType userInfoType;
+    String TAG = "LoginSignupActivity";
 
     // Firebase Stuff
     FirebaseAuth mAuth;
@@ -72,17 +75,8 @@ public class LoginSignupActivity extends AppCompatActivity {
                 tempNumber = contactNumber.getEditText().getText().toString();
                 sendOtpCommand.setEnabled(false);
                 loading.setVisibility(View.VISIBLE);
-                if (tempNumber.length() > 3) {
-                    if (tempNumber.length() == 10) {
-                        tempNumber = "+91" + tempNumber;
-                    }
-                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                            tempNumber,
-                            60,
-                            TimeUnit.SECONDS,
-                            LoginSignupActivity.this,
-                            mCallbacks
-                    );
+                if (tempNumber.length() == 10) {
+                    checkUserExists("+91" + tempNumber);
                 } else {
                     Toast.makeText(LoginSignupActivity.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
                 }
@@ -100,6 +94,35 @@ public class LoginSignupActivity extends AppCompatActivity {
         });
     }
 
+    void checkUserExists(final String userNumber) {
+        db.collection("USERS")
+                .document(userNumber)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.getResult().exists() && task.isSuccessful()) {
+                            userInfoType = task.getResult().toObject(UserInfoType.class);
+                            sendOtsi(userNumber);
+                        } else {
+                            Toast.makeText(LoginSignupActivity.this, "User Not Found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    void sendOtsi(String number) {
+        Log.d(TAG, "sendOtsi: started");
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                number,
+                60,
+                TimeUnit.SECONDS,
+                LoginSignupActivity.this,
+                mCallbacks
+        );
+        Log.d(TAG, "sendOtsi: Finished");
+    }
+
     void siWiOt(String otp, PhoneAuthCredential cred) {
         final PhoneAuthCredential credential;
         if (cred == null && otp != null) {
@@ -107,35 +130,21 @@ public class LoginSignupActivity extends AppCompatActivity {
         } else {
             credential = cred;
         }
-        db.collection("USERS")
-                .document(tempNumber)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        SharedPrefsManager.getInstance(LoginSignupActivity.this).storeWarehouseId(userInfoType.getWarehouseId());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(LoginSignupActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful() && task.getResult().exists()) {
-                            final UserInfoType info = task.getResult().toObject(UserInfoType.class);
-                            SharedPrefsManager.getInstance(LoginSignupActivity.this).storeWarehouseId(info.getWarehouseId());
-                            mAuth.signInWithCredential(credential)
-                                    .addOnCompleteListener(LoginSignupActivity.this, new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if (task.isSuccessful()) {
-                                                if (info.getUserType().equals(USER_WORKER)) {
-                                                    startActivity(new Intent(LoginSignupActivity.this, WorkerMainActivity.class));
-                                                    SharedPrefsManager.getInstance(LoginSignupActivity.this).setUserType(USER_WORKER);
-                                                    finish();
-                                                } else if (info.getUserType().equals(USER_MANAGER)) {
-                                                    startActivity(new Intent(LoginSignupActivity.this, ManagerMainActivity.class));
-                                                    SharedPrefsManager.getInstance(LoginSignupActivity.this).setUserType(USER_MANAGER);
-                                                    finish();
-                                                }
-                                            }
-                                        }
-                                    });
-                        } else {
-                            Toast.makeText(LoginSignupActivity.this, "Uer Don't Exists", Toast.LENGTH_SHORT).show();
-                            sendOtpCommand.setEnabled(true);
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            if (userInfoType.getUserType().equals(USER_WORKER)) {
+                                startActivity(new Intent(LoginSignupActivity.this, WorkerMainActivity.class));
+                                SharedPrefsManager.getInstance(LoginSignupActivity.this).setUserType(USER_WORKER);
+                                finish();
+                            } else if (userInfoType.getUserType().equals(USER_MANAGER)) {
+                                startActivity(new Intent(LoginSignupActivity.this, ManagerMainActivity.class));
+                                SharedPrefsManager.getInstance(LoginSignupActivity.this).setUserType(USER_MANAGER);
+                                finish();
+                            }
                         }
                     }
                 });
