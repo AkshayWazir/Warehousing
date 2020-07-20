@@ -67,8 +67,9 @@ public class FragmentActiChecker extends Fragment {
 
     void getTasks() {
         final ArrayList<Object> objects = new ArrayList<>();
+        String wareId = SharedPrefsManager.getInstance(context).getWarehouseId();
         FirebaseFirestore.getInstance().collection("ACTIVITIES")
-                .document(SharedPrefsManager.getInstance(context).getWarehouseId())
+                .document(wareId)
                 .collection("Activities")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override

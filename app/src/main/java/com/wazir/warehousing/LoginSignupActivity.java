@@ -139,10 +139,12 @@ public class LoginSignupActivity extends AppCompatActivity {
                             if (userInfoType.getUserType().equals(USER_WORKER)) {
                                 startActivity(new Intent(LoginSignupActivity.this, WorkerMainActivity.class));
                                 SharedPrefsManager.getInstance(LoginSignupActivity.this).setUserType(USER_WORKER);
+                                SharedPrefsManager.getInstance(LoginSignupActivity.this).storeWarehouseId(userInfoType.getWarehouseId());
                                 finish();
                             } else if (userInfoType.getUserType().equals(USER_MANAGER)) {
                                 startActivity(new Intent(LoginSignupActivity.this, ManagerMainActivity.class));
                                 SharedPrefsManager.getInstance(LoginSignupActivity.this).setUserType(USER_MANAGER);
+                                SharedPrefsManager.getInstance(LoginSignupActivity.this).storeWarehouseId(userInfoType.getWarehouseId());
                                 finish();
                             }
                         }
