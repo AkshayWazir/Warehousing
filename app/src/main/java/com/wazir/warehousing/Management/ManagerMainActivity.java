@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+import com.wazir.warehousing.Activities.NotifyActivity;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.Fragments.FragmentActiChecker;
@@ -156,8 +157,8 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case (R.id.id_notifications):
-                // TODO: 7/8/2020 do something here
+            case (R.id.id_notif_menu):
+                startActivity(new Intent(this, NotifyActivity.class));
                 break;
             case (R.id.id_logout):
                 mAuth.signOut();

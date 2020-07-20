@@ -29,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+import com.wazir.warehousing.Activities.NotifyActivity;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.Fragments.FragmentActiChecker;
@@ -141,8 +142,9 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case (R.id.id_notifications):
-                // TODO: 7/8/2020 do something here
+            case (R.id.id_notif_menu):
+                Log.d("TopMenu", "onOptionsItemSelected: " + item.getItemId());
+                startActivity(new Intent(this, NotifyActivity.class));
                 break;
             case (R.id.id_logout):
                 mAuth.signOut();
