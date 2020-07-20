@@ -151,9 +151,6 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
                 startActivity(new Intent(this, LoginSignupActivity.class));
                 finish();
                 break;
-            case (R.id.id_support):
-                // TODO: 7/18/2020 launch support here
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
