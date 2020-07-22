@@ -29,6 +29,7 @@ public class MyNotificationManager {
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx, CHANNEL_1);
+        builder.setColor(ctx.getResources().getColor(R.color.white));
         Notification notification1 = builder
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true)

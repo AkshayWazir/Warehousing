@@ -25,7 +25,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -39,6 +42,7 @@ import com.wazir.warehousing.Interfaces.CheckerInteract;
 import com.wazir.warehousing.Interfaces.ContactInteract;
 import com.wazir.warehousing.Interfaces.FragmentsClickEvent;
 import com.wazir.warehousing.LoginSignupActivity;
+import com.wazir.warehousing.ModelObject.UserInfoType;
 import com.wazir.warehousing.R;
 
 import org.json.JSONException;
@@ -177,18 +181,17 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
         startActivity(intent);
     }
 
-    @Override
-    public void alertUser(String token) {
+    void sendRequest(String name, String token) {
         RequestQueue mRequest = Volley.newRequestQueue(this);
         JSONObject json = new JSONObject();
         try {
             json.put("to", token);
             JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title", "any title");
-            notificationObj.put("body", "any body");
+            notificationObj.put("title", "Staff Alert");
+            notificationObj.put("body", name +" Require Your Attention.");
 
             JSONObject extraData = new JSONObject();
-            extraData.put("brandId", "puma");
+            extraData.put("brandId", "User Attention");
             extraData.put("category", "Shoes");
 
 
@@ -215,7 +218,7 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> header = new HashMap<>();
                     header.put("content-type", "application/json");
-                    header.put("Authorization", "key=" + getApplicationContext().getResources().getString(R.string.apiKey));
+                    header.put("Authorization", "key=AAAAe6_wBew:APA91bHeK8TxWNjRsVMKbWyBLvotl5VfPUBpQH65eH9yZFQuw9cxm-qBBtJOUo-37vFAHqFJ3x5ssWv0jTaPJQMY2OTK-Gh50kAqJPpNdwUOnqodknI-aSml-R7aoOl7mVB3FjMVPnix");
                     return header;
                 }
             };
@@ -223,6 +226,23 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void alertUser(final String name, final String token, String contact) {
+        FirebaseFirestore.getInstance()
+                .collection("USERS")
+                .document(contact)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            UserInfoType info = task.getResult().toObject(UserInfoType.class);
+                            sendRequest(name, info.getUserToken());
+                        }
+                    }
+                });
     }
 
     @Override

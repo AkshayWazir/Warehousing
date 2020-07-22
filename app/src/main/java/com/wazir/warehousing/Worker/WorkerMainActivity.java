@@ -26,7 +26,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.wazir.warehousing.Activities.NotifyActivity;
@@ -39,6 +42,7 @@ import com.wazir.warehousing.Interfaces.CheckerInteract;
 import com.wazir.warehousing.Interfaces.ContactInteract;
 import com.wazir.warehousing.Interfaces.FragmentsClickEvent;
 import com.wazir.warehousing.LoginSignupActivity;
+import com.wazir.warehousing.ModelObject.UserInfoType;
 import com.wazir.warehousing.R;
 
 import org.json.JSONException;
@@ -168,18 +172,17 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
         startActivity(intent);
     }
 
-    @Override
-    public void alertUser(String token) {
+    void sendRequest(String name, String token) {
         RequestQueue mRequest = Volley.newRequestQueue(this);
         JSONObject json = new JSONObject();
         try {
-            json.put("to", "cxrOtHC5RAGPRBHZ49JnTJ:APA91bGxx7nvTnHZGTYR1zYNpVrUdCq06UVUDVzJ2ER6ZRx8fBhK1f5UMTX6BiLLHxxL7fQA2myKaQ1D068K3Yv3x68P4sQ9tkFK1VEYGryIQ2PGnPSvUqQE-DsOHbK8eZyeBcoWiXEz");
+            json.put("to", token);
             JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title", "any title");
-            notificationObj.put("body", "any body");
+            notificationObj.put("title", "Staff Alert");
+            notificationObj.put("body", name +" Require Your Attention.");
 
             JSONObject extraData = new JSONObject();
-            extraData.put("brandId", "puma");
+            extraData.put("brandId", "User Attention");
             extraData.put("category", "Shoes");
 
 
@@ -192,7 +195,7 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("MUR", "onResponse: ");
+                            Log.d("MUR", "onResponse: " + response.toString());
                         }
                     },
                     new Response.ErrorListener() {
@@ -214,5 +217,23 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    public void alertUser(final String name, final String token, String contact) {
+        FirebaseFirestore.getInstance()
+                .collection("USERS")
+                .document(contact)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            UserInfoType info = task.getResult().toObject(UserInfoType.class);
+                            sendRequest(name, info.getUserToken());
+                        }
+                    }
+                });
     }
 }
