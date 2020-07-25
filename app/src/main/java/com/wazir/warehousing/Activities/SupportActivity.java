@@ -40,7 +40,7 @@ public class SupportActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 123;
     Uri mImageUri;
     FirebaseStorage storage;
-    ProgressBar pb;
+    ProgressBar pb, pb2;
     String TAG = "SupportActivitylog";
 
     @Override
@@ -63,6 +63,7 @@ public class SupportActivity extends AppCompatActivity {
         pb = findViewById(R.id.progressBar);
         storage = FirebaseStorage.getInstance();
         removeImage = findViewById(R.id.id_remove_image);
+        pb2 = findViewById(R.id.progressBar2);
         Log.d(TAG, "initUi: ended");
     }
 
@@ -79,6 +80,7 @@ public class SupportActivity extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pb2.setVisibility(View.VISIBLE);
                 uploadImage();
             }
         });
@@ -115,6 +117,7 @@ public class SupportActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(SupportActivity.this, "Failed to Upload", Toast.LENGTH_SHORT).show();
+                            pb2.setVisibility(View.INVISIBLE);
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
