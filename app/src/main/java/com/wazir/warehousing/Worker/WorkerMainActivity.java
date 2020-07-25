@@ -33,6 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.wazir.warehousing.Activities.NotifyActivity;
+import com.wazir.warehousing.Activities.SupportActivity;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.Fragments.FragmentActiChecker;
@@ -147,13 +148,15 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case (R.id.id_notif_menu):
-                Log.d("TopMenu", "onOptionsItemSelected: " + item.getItemId());
                 startActivity(new Intent(this, NotifyActivity.class));
                 break;
             case (R.id.id_logout):
                 mAuth.signOut();
                 startActivity(new Intent(this, LoginSignupActivity.class));
                 finish();
+                break;
+            case (R.id.id_support):
+                startActivity(new Intent(this, SupportActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

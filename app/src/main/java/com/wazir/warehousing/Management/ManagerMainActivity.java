@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.wazir.warehousing.Activities.NotifyActivity;
+import com.wazir.warehousing.Activities.SupportActivity;
 import com.wazir.warehousing.FCM.MyFirebaseInstanceIdService;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.Fragments.FragmentActiChecker;
@@ -169,6 +170,9 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
                 startActivity(new Intent(this, LoginSignupActivity.class));
                 finish();
                 break;
+            case (R.id.id_support):
+                startActivity(new Intent(this, SupportActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -188,7 +192,7 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
             json.put("to", token);
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title", "Staff Alert");
-            notificationObj.put("body", name +" Require Your Attention.");
+            notificationObj.put("body", name + " Require Your Attention. Kindly Contact him or See if he's around.");
 
             JSONObject extraData = new JSONObject();
             extraData.put("brandId", "User Attention");
@@ -239,7 +243,7 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful() && task.getResult().exists()) {
                             UserInfoType info = task.getResult().toObject(UserInfoType.class);
-                            sendRequest(name, info.getUserToken());
+                            sendRequest(SharedPrefsManager.getInstance(ManagerMainActivity.this).getUserName(), info.getUserToken());
                         }
                     }
                 });
