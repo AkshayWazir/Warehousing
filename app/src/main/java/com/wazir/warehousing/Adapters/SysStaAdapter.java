@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wazir.warehousing.GloabalFunctions.LoadingPopup;
 import com.wazir.warehousing.ModelObject.SysStaObject;
 import com.wazir.warehousing.R;
 
@@ -18,10 +19,12 @@ import java.util.ArrayList;
 public class SysStaAdapter extends RecyclerView.Adapter<SysStaAdapter.SysStaViewHolder> {
     ArrayList<SysStaObject> objects;
     Context context;
+    LoadingPopup popup;
 
     public SysStaAdapter(ArrayList<SysStaObject> objects, Context context) {
         this.objects = objects;
         this.context = context;
+        this.popup = new LoadingPopup(context);
     }
 
     @NonNull
@@ -32,13 +35,26 @@ public class SysStaAdapter extends RecyclerView.Adapter<SysStaAdapter.SysStaView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SysStaViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SysStaViewHolder holder, final int position) {
         holder.sensName.setText(objects.get(position).getSensName());
         if (objects.get(position).isSensValue()) {
             holder.staBack.setCardBackgroundColor(context.getResources().getColor(R.color.g_green));
+            holder.sensStatus.setText("WORKING");
         } else {
             holder.staBack.setCardBackgroundColor(context.getResources().getColor(R.color.g_red));
+            holder.sensStatus.setText("No Response");
         }
+        holder.staBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.setSysParams(
+                        objects.get(position).getLocation(),
+                        objects.get(position).getInfo(),
+                        objects.get(position).getSensName()
+                );
+                popup.dialogRaise();
+            }
+        });
     }
 
     @Override
@@ -48,12 +64,14 @@ public class SysStaAdapter extends RecyclerView.Adapter<SysStaAdapter.SysStaView
 
     static class SysStaViewHolder extends RecyclerView.ViewHolder {
         CardView staBack;
-        TextView sensName;
+        TextView sensName, sensStatus;
 
         public SysStaViewHolder(@NonNull View itemView) {
             super(itemView);
             sensName = itemView.findViewById(R.id.textView10);
             staBack = itemView.findViewById(R.id.id_sys_status);
+            sensStatus = itemView.findViewById(R.id.textView18);
+
         }
     }
 }
