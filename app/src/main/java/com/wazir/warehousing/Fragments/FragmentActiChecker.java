@@ -74,6 +74,7 @@ public class FragmentActiChecker extends Fragment {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        objects.clear();
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                             if (snapshot.contains("checked")) {
                                 BodyObj obj = snapshot.toObject(BodyObj.class);
@@ -88,6 +89,9 @@ public class FragmentActiChecker extends Fragment {
                             } else {
                                 objects.add(queryDocumentSnapshots.toObjects(TitleObj.class));
                             }
+                        }
+                        for (int i = 0; i < 3; i++) {
+
                         }
                         AdapterActivityChecker adapterActivityChecker = new AdapterActivityChecker(objects, context);
                         adapterActivityChecker.setWorker(worker);

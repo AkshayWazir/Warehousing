@@ -79,31 +79,6 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
             if (worker) {
                 ((WorkerBody) holder).title.setText(obj.getTitle());
                 ((WorkerBody) holder).description.setText(obj.getDescription());
-                if (obj.isChecked()) {
-                    ((WorkerBody) holder).check.setVisibility(View.GONE);
-                } else {
-                    ((WorkerBody) holder).check.setVisibility(View.VISIBLE);
-                }
-                ((WorkerBody) holder).check.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ValueAnimator animator = ValueAnimator.ofFloat(0f, 0.6f);
-                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator animation) {
-                                animation.setDuration(2500);
-                                ((WorkerBody) holder).check.setProgress(animation.getAnimatedFraction());
-                                if (animation.getAnimatedFraction() == 1f) {
-                                    obj.setChecked(true);
-                                    objects.set(position, obj);
-                                    interact.updateChecker(obj.getLevel1Id(), obj.getLevel2Id());
-                                    notifyItemChanged(position);
-                                }
-                            }
-                        });
-                        animator.start();
-                    }
-                });
                 String format = "dd/MM";
                 SimpleDateFormat format1 = new SimpleDateFormat(format, Locale.ENGLISH);
                 String dateToStr = format1.format(obj.getTimeOfTask());
@@ -161,13 +136,12 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
 
     static class WorkerBody extends RecyclerView.ViewHolder {
         TextView title, description, date;
-        LottieAnimationView check;
 
         public WorkerBody(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.task_title_id);
             description = itemView.findViewById(R.id.task_descri_id);
-            check = itemView.findViewById(R.id.id_checked);
+
             date = itemView.findViewById(R.id.textView9);
         }
     }

@@ -9,8 +9,8 @@
     <item
         android:id="@+id/id_logout"
         android:icon="@drawable/ic_logout"
-        android:title="LOGOUT" />
+        android:title="Logout" />
     <item
         android:id="@+id/id_support"
-        android:title="SUPPORT" />
+        android:title="Support" />
 </menu>
