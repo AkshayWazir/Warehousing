@@ -115,20 +115,23 @@ public class ManagerMainActivity extends AppCompatActivity implements FragmentsC
                         .update("userToken", token);
             }
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, activityFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, systemFragment).commit();
         navigationBar = findViewById(R.id.chip_nav_bar);
-        navigationBar.setItemSelected(R.id.id_activity_checker, true);
+        navigationBar.setItemSelected(R.id.id_system_status, true);
         navigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
                 switch (i) {
                     case R.id.id_activity_checker:
+                        setTitle("Activity Checker");
                         getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, activityFragment).commit();
                         break;
                     case R.id.id_contact:
+                        setTitle("Contacts");
                         getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, contactFragment).commit();
                         break;
                     case R.id.id_system_status:
+                        setTitle("System Status");
                         getSupportFragmentManager().beginTransaction().replace(R.id.worker_fragment_container, systemFragment).commit();
                         break;
                 }

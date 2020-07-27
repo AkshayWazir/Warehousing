@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/id_system_status"
+        android:icon="@drawable/ic_system_status"
+        android:title="System" />
+    <item
         android:id="@+id/id_activity_checker"
         android:icon="@drawable/ic_activity_checker"
-        android:iconTint="@color/softBlue"
-        android:title="ACTIVITY" />
+        android:title="Activity" />
 
     <item
         android:id="@+id/id_contact"
         android:icon="@drawable/ic_contact"
-        android:iconTint="@color/softBlue"
         android:title="Contacts" />
-    <item
-        android:id="@+id/id_system_status"
-        android:icon="@drawable/ic_system_status"
-        android:iconTint="@color/softBlue"
-        android:title="SYSTEM" />
 </menu>

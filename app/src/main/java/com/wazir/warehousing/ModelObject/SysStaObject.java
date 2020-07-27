@@ -1,19 +1,26 @@
 package com.wazir.warehousing.ModelObject;
 
 public class SysStaObject {
-    private String sensName, location,info;
+    private String sensorId, compartId, location, info;
     boolean sensValue;
 
     public SysStaObject() {
     }
 
-    public SysStaObject(String sensName, boolean sensValue) {
-        this.sensName = sensName;
-        this.sensValue = sensValue;
+    public String getSensorId() {
+        return sensorId;
     }
 
-    public void setSensName(String sensName) {
-        this.sensName = sensName;
+    public void setSensorId(String sensorId) {
+        this.sensorId = sensorId;
+    }
+
+    public String getCompartId() {
+        return compartId;
+    }
+
+    public void setCompartId(String compartId) {
+        this.compartId = compartId;
     }
 
     public String getLocation() {
@@ -36,9 +43,6 @@ public class SysStaObject {
         this.sensValue = sensValue;
     }
 
-    public String getSensName() {
-        return sensName;
-    }
 
     public boolean isSensValue() {
         return sensValue;

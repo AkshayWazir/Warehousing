@@ -36,7 +36,8 @@ public class SysStaAdapter extends RecyclerView.Adapter<SysStaAdapter.SysStaView
 
     @Override
     public void onBindViewHolder(@NonNull SysStaViewHolder holder, final int position) {
-        holder.sensName.setText(objects.get(position).getSensName());
+        holder.sensName.setText(objects.get(position).getSensorId());
+        holder.compId.setText(objects.get(position).getCompartId());
         if (objects.get(position).isSensValue()) {
             holder.staBack.setCardBackgroundColor(context.getResources().getColor(R.color.g_green));
             holder.sensStatus.setText("WORKING");
@@ -50,7 +51,7 @@ public class SysStaAdapter extends RecyclerView.Adapter<SysStaAdapter.SysStaView
                 popup.setSysParams(
                         objects.get(position).getLocation(),
                         objects.get(position).getInfo(),
-                        objects.get(position).getSensName()
+                        objects.get(position).getSensorId()
                 );
                 popup.dialogRaise();
             }
@@ -64,14 +65,14 @@ public class SysStaAdapter extends RecyclerView.Adapter<SysStaAdapter.SysStaView
 
     static class SysStaViewHolder extends RecyclerView.ViewHolder {
         CardView staBack;
-        TextView sensName, sensStatus;
+        TextView sensName, sensStatus, compId;
 
         public SysStaViewHolder(@NonNull View itemView) {
             super(itemView);
             sensName = itemView.findViewById(R.id.textView10);
             staBack = itemView.findViewById(R.id.id_sys_status);
             sensStatus = itemView.findViewById(R.id.textView18);
-
+            compId = itemView.findViewById(R.id.textView25);
         }
     }
 }
