@@ -2,9 +2,10 @@ package com.wazir.warehousing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ public class LoginSignupActivity extends AppCompatActivity {
     CardView sendOtpCommand, verifyOtpCommand;
     TextInputLayout contactNumber, otpGenerated;
     LottieAnimationView loading;
+    TextView timer;
 
     // JAVA objects
     String verId, tempNumber;
@@ -62,9 +64,27 @@ public class LoginSignupActivity extends AppCompatActivity {
         contactNumber = findViewById(R.id.phone_number_id);
         otpGenerated = findViewById(R.id.otp_number_id);
         loading = findViewById(R.id.loading_anim_view);
+        timer = findViewById(R.id.textView27);
         loading.setVisibility(View.INVISIBLE);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+    }
+
+    void startCountdown(int time) {
+        timer.setVisibility(View.VISIBLE);
+        sendOtpCommand.setVisibility(View.GONE);
+        verifyOtpCommand.setVisibility(View.VISIBLE);
+        new CountDownTimer(time, 1000) {
+            public void onTick(long millisUntilFinished) {
+                timer.setText("0:" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                timer.setVisibility(View.INVISIBLE);
+                sendOtpCommand.setVisibility(View.VISIBLE);
+                verifyOtpCommand.setVisibility(View.GONE);
+            }
+        }.start();
     }
 
     void clickListeners() {
@@ -74,6 +94,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                 tempNumber = contactNumber.getEditText().getText().toString();
                 sendOtpCommand.setEnabled(false);
                 loading.setVisibility(View.VISIBLE);
+                startCountdown(59000);
                 if (tempNumber.length() == 10) {
                     checkUserExists("+91" + tempNumber);
                 } else {
