@@ -1,50 +1,41 @@
 package com.wazir.warehousing.ModelObject;
 
+import java.util.ArrayList;
+
 public class SysStaObject {
-    private String sensorId, compartId, location, info;
-    boolean sensValue;
+    String warehouseId, capacity;
+    ArrayList<Compartment> compartments;
 
     public SysStaObject() {
     }
 
-    public String getSensorId() {
-        return sensorId;
+    public SysStaObject(String warehouseId, String capacity, ArrayList<Compartment> compartments) {
+        this.warehouseId = warehouseId;
+        this.capacity = capacity;
+        this.compartments = compartments;
     }
 
-    public void setSensorId(String sensorId) {
-        this.sensorId = sensorId;
+    public String getWarehouseId() {
+        return warehouseId;
     }
 
-    public String getCompartId() {
-        return compartId;
+    public void setWarehouseId(String warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
-    public void setCompartId(String compartId) {
-        this.compartId = compartId;
+    public String getCapacity() {
+        return capacity;
     }
 
-    public String getLocation() {
-        return location;
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public ArrayList<Compartment> getCompartments() {
+        return compartments;
     }
 
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public void setSensValue(boolean sensValue) {
-        this.sensValue = sensValue;
-    }
-
-
-    public boolean isSensValue() {
-        return sensValue;
+    public void setCompartments(ArrayList<Compartment> compartments) {
+        this.compartments = compartments;
     }
 }

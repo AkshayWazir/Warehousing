@@ -2,14 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/id_sys_status"
+    android:id="@+id/id_card_back_comp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:fadingEdgeLength="5dp"
-    app:cardBackgroundColor="@color/g_blue"
-    app:cardCornerRadius="7dp"
-    app:cardElevation="5dp">
+    app:cardBackgroundColor="@color/g_red"
+    app:cardCornerRadius="11dp"
+    android:layout_margin="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,40 +15,41 @@
         android:animateLayoutChanges="true"
         android:padding="8dp">
 
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:text="Compartment ID: 14"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:fontFamily="@font/open_sans"
-            android:text="Warehouse ID: 1245"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="capacity : 123"
+            android:text="Capacity : 124Qt"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/textView17" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/id_cont_comp"
+            android:id="@+id/id_cont_senso"
             android:layout_width="0sp"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView16"
-            tools:itemCount="2"
-            tools:listitem="@layout/compart_layout" />
-
+            app:layout_constraintTop_toBottomOf="@+id/textView17"
+            app:spanCount="2"
+            tools:itemCount="4"
+            tools:listitem="@layout/sensor_info_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

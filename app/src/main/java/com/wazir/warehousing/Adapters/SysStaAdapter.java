@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wazir.warehousing.GloabalFunctions.LoadingPopup;
@@ -35,27 +36,21 @@ public class SysStaAdapter extends RecyclerView.Adapter<SysStaAdapter.SysStaView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SysStaViewHolder holder, final int position) {
-        holder.sensName.setText(objects.get(position).getSensorId());
-        holder.compId.setText(objects.get(position).getCompartId());
-        if (objects.get(position).isSensValue()) {
-            holder.staBack.setCardBackgroundColor(context.getResources().getColor(R.color.g_green));
-            holder.sensStatus.setText("WORKING");
-        } else {
-            holder.staBack.setCardBackgroundColor(context.getResources().getColor(R.color.g_red));
-            holder.sensStatus.setText("No Response");
-        }
-        holder.staBack.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull final SysStaViewHolder holder, final int position) {
+        holder.wareId.setText(objects.get(position).getWarehouseId());
+        holder.wareCap.setText(objects.get(position).getCapacity());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popup.setSysParams(
-                        objects.get(position).getLocation(),
-                        objects.get(position).getInfo(),
-                        objects.get(position).getSensorId()
-                );
-                popup.dialogRaise();
+                if (holder.compRcView.getVisibility() == View.VISIBLE) {
+                    holder.compRcView.setVisibility(View.GONE);
+                } else {
+                    holder.compRcView.setVisibility(View.VISIBLE);
+                }
             }
         });
+        holder.compRcView.setAdapter(new CompAdapter(objects.get(position).getCompartments(), context));
+        holder.compRcView.setLayoutManager(new LinearLayoutManager(context));
     }
 
     @Override
@@ -64,15 +59,16 @@ public class SysStaAdapter extends RecyclerView.Adapter<SysStaAdapter.SysStaView
     }
 
     static class SysStaViewHolder extends RecyclerView.ViewHolder {
-        CardView staBack;
-        TextView sensName, sensStatus, compId;
+        TextView wareId, wareCap;
+        RecyclerView compRcView;
+        CardView cardView;
 
         public SysStaViewHolder(@NonNull View itemView) {
             super(itemView);
-            sensName = itemView.findViewById(R.id.textView10);
-            staBack = itemView.findViewById(R.id.id_sys_status);
-            sensStatus = itemView.findViewById(R.id.textView18);
-            compId = itemView.findViewById(R.id.textView25);
+            wareId = itemView.findViewById(R.id.textView16);
+            wareCap = itemView.findViewById(R.id.textView10);
+            compRcView = itemView.findViewById(R.id.id_cont_comp);
+            cardView = itemView.findViewById(R.id.id_sys_status);
         }
     }
 }

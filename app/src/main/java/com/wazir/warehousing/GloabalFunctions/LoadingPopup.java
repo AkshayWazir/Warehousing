@@ -1,6 +1,8 @@
 package com.wazir.warehousing.GloabalFunctions;
 
+import android.app.KeyguardManager;
 import android.content.Context;
+import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -43,12 +45,5 @@ public class LoadingPopup extends AppCompatDialog {
         alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.show();
-    }
-
-    public void dialogDismiss() {
-        if (ctx == null) {
-            return;
-        }
-        alertDialog.dismiss();
     }
 }

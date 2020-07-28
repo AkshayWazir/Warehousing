@@ -52,6 +52,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.wazir.warehousing.GloabalFunctions.Constants.FIRE_HAZ;
+import static com.wazir.warehousing.GloabalFunctions.Constants.FLOOD_HAZ;
+
 public class WorkerMainActivity extends AppCompatActivity implements FragmentsClickEvent, CheckerInteract, ContactInteract {
     ChipNavigationBar navigationBar;
     // Firebase Stuff
@@ -63,6 +66,7 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
     FragmentContact contactFragment;
     FragmentSysStatus systemFragment;
     FragmentActiChecker activityFragment;
+    BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +99,7 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
 
     void initUi() {
         mAuth = FirebaseAuth.getInstance();
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String token = SharedPrefsManager.getInstance(WorkerMainActivity.this).getToken();  // retrieved Token here
@@ -139,6 +143,7 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
 
         fragContainer = findViewById(R.id.worker_fragment_container);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -185,11 +190,12 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
             json.put("to", token);
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title", "Staff Alert");
-            notificationObj.put("body", name +" Require Your Attention.");
+            notificationObj.put("body", name + " Require Your Attention.");
 
             JSONObject extraData = new JSONObject();
-            extraData.put("brandId", "User Attention");
-            extraData.put("category", "Shoes");
+            extraData.put("EME_LOC", "Compartment 4");
+            extraData.put("EME_CAT", "FIRE");
+            extraData.put("category", FIRE_HAZ);
 
 
             json.put("notification", notificationObj);
@@ -225,6 +231,11 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
 
     @Override
     public void alertUser(final String name, final String token, String contact) {

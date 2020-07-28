@@ -39,7 +39,7 @@ public class App extends Application {
             NotificationChannel channel2 = new NotificationChannel(
                     CHANNEL_2,
                     "channel 2",
-                    NotificationManager.IMPORTANCE_LOW
+                    NotificationManager.IMPORTANCE_HIGH
             );
             channel1.setDescription("ALERT_CHANNEL_2");
 
