@@ -87,9 +87,9 @@ public class SupportActivity extends AppCompatActivity {
         removeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imagePreview.setVisibility(View.INVISIBLE);
+                imagePreview.setImageDrawable(SupportActivity.this.getResources().getDrawable(R.drawable.support_img));
                 mImageUri = null;
-                removeImage.setVisibility(View.INVISIBLE);
+                removeImage.setVisibility(View.GONE);
             }
         });
     }
