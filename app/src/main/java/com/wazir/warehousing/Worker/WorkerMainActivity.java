@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,7 +54,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.wazir.warehousing.GloabalFunctions.Constants.FIRE_HAZ;
-import static com.wazir.warehousing.GloabalFunctions.Constants.FLOOD_HAZ;
 
 public class WorkerMainActivity extends AppCompatActivity implements FragmentsClickEvent, CheckerInteract, ContactInteract {
     ChipNavigationBar navigationBar;
@@ -234,7 +234,11 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(broadcastReceiver);
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(this, "No Reciever", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

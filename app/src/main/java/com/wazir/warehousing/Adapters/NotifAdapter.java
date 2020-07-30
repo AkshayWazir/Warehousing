@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wazir.warehousing.ModelObject.NoticeObject;
 import com.wazir.warehousing.R;
 
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

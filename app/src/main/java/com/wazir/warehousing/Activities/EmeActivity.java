@@ -1,6 +1,9 @@
 package com.wazir.warehousing.Activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,5 +40,12 @@ public class EmeActivity extends AppCompatActivity {
         symbol = findViewById(R.id.imageView8);
         title = findViewById(R.id.textView30);
         location = findViewById(R.id.textView32);
+    }
+
+    public void callEme(View view) {
+        String uri = "tel:" + "101";
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse(uri));
+        startActivity(intent);
     }
 }

@@ -1,6 +1,7 @@
 package com.wazir.warehousing.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,6 @@ import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.ModelObject.NoticeObject;
 import com.wazir.warehousing.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +26,7 @@ import java.util.Date;
 
 public class NotifyActivity extends AppCompatActivity {
     RecyclerView noticeContainer;
+    String TAG = "NOTICES :";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,26 +45,26 @@ public class NotifyActivity extends AppCompatActivity {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        notices.clear();
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            Log.d(TAG, "onEvent: " + snapshot.getData().toString());
                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                             Date date;
                             try {
-                                date = sdf.parse(snapshot.getString("date"));
-                                NoticeObject obj = new NoticeObject();
-                                obj.setTitle(snapshot.getString("title"));
-                                obj.setDescription(snapshot.getString("description"));
-                                obj.setPriority(Integer.parseInt(snapshot.getString("priority")));
+                                date = sdf.parse((String) snapshot.getData().get("date_str"));
+                                NoticeObject obj = snapshot.toObject(NoticeObject.class);
                                 obj.setDate(date);
+                                obj.setData(obj.getCate());
+                                Log.d(TAG, "Object added: " + obj.toString());
                                 notices.add(obj);
-                            } catch (ParseException ex) {
-                                ex.printStackTrace();
+                            } catch (Exception es) {
+                                es.printStackTrace();
                             }
-
                         }
                         Comparator<NoticeObject> comparator = new Comparator<NoticeObject>() {
                             @Override
                             public int compare(NoticeObject o1, NoticeObject o2) {
-                                return o1.getPriority();
+                                return o1.getPri_str();
                             }
                         };
                         Collections.sort(notices, comparator);

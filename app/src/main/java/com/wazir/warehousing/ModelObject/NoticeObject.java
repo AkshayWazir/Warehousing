@@ -3,49 +3,93 @@ package com.wazir.warehousing.ModelObject;
 import java.util.Date;
 
 public class NoticeObject {
-    int priority;
-    String title, description;
+    int pri_str;
+    int cate;
+    String title, description, temp, moist, location;
     Date date;
 
     public NoticeObject() {
     }
 
-    public NoticeObject(int priority, String title, String description, Date date) {
-        this.priority = priority;
-        this.title = title;
-        this.description = description;
-        this.date = date;
+    public void setData(int category) {
+        this.cate = category;
+        setContent(this.cate);
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    void setContent(int category) {
+        switch (category) {
+            case (1):
+                this.title = "Temperature Rising";
+                this.description = this.temp + " C Rise in temperature has been Detected";
+                break;
+            case (2):
+                this.title = "Moisture Increasing";
+                this.description = "There are elevated levels of Moisture in " + this.location + " to " + this.moist + "%";
+                break;
+        }
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public int getPri_str() {
+        return pri_str;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPri_str(int pri_str) {
+        this.pri_str = pri_str;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public int getCate() {
+        return cate;
     }
 
-    public int getPriority() {
-        return priority;
+    public void setCate(int cate) {
+        this.cate = cate;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTemp() {
+        return temp;
+    }
+
+    public void setTemp(String temp) {
+        this.temp = temp;
+    }
+
+    public String getMoist() {
+        return moist;
+    }
+
+    public void setMoist(String moist) {
+        this.moist = moist;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public Date getDate() {
         return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
