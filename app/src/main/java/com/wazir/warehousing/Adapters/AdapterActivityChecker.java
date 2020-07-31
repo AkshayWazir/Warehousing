@@ -1,6 +1,5 @@
 package com.wazir.warehousing.Adapters;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +11,12 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.wazir.warehousing.Interfaces.CheckerInteract;
 import com.wazir.warehousing.ModelObject.BodyObj;
 import com.wazir.warehousing.ModelObject.TitleObj;
 import com.wazir.warehousing.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -74,15 +70,12 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
         if (holder instanceof HeaderViewHolder) {
             TitleObj obj = (TitleObj) objects.get(position);
             ((HeaderViewHolder) holder).header.setText(obj.getTitle());
+            ((HeaderViewHolder) holder).date.setText(obj.getDate());
         } else {
             final BodyObj obj = (BodyObj) objects.get(position);
             if (worker) {
                 ((WorkerBody) holder).title.setText(obj.getTitle());
                 ((WorkerBody) holder).description.setText(obj.getDescription());
-                String format = "dd/MM";
-                SimpleDateFormat format1 = new SimpleDateFormat(format, Locale.ENGLISH);
-                String dateToStr = format1.format(obj.getTimeOfTask());
-                ((WorkerBody) holder).date.setText(dateToStr);
             } else {
                 ((BodyChecker) holder).title.setText(obj.getTitle());
                 ((BodyChecker) holder).description.setText(obj.getDescription());
@@ -93,10 +86,6 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
                     ((BodyChecker) holder).status.setText(context.getResources().getString(R.string.incompleteStr));
                     ((BodyChecker) holder).statusColor.setCardBackgroundColor(context.getResources().getColor(R.color.g_red));
                 }
-                String format = "dd/MM";
-                SimpleDateFormat format1 = new SimpleDateFormat(format, Locale.ENGLISH);
-                String dateToStr = format1.format(obj.getTimeOfTask());
-                ((BodyChecker) holder).date.setText(dateToStr);
                 AssigneesAdapter adapter = new AssigneesAdapter(obj.getAssignees(), context);
                 ((BodyChecker) holder).assRcView.setAdapter(adapter);
                 ((BodyChecker) holder).assRcView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
@@ -110,16 +99,17 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView header;
+        TextView header, date;
 
         public HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
             header = itemView.findViewById(R.id.textView8);
+            date = itemView.findViewById(R.id.textView36);
         }
     }
 
     static class BodyChecker extends RecyclerView.ViewHolder {
-        TextView title, description, status, date;
+        TextView title, description, status;
         CardView statusColor;
         RecyclerView assRcView;
 
@@ -129,20 +119,18 @@ public class AdapterActivityChecker extends RecyclerView.Adapter<RecyclerView.Vi
             description = itemView.findViewById(R.id.task_descri_id);
             status = itemView.findViewById(R.id.id_status);
             assRcView = itemView.findViewById(R.id.id_assign_id);
-            date = itemView.findViewById(R.id.textView9);
+
             statusColor = itemView.findViewById(R.id.id_status_card);
         }
     }
 
     static class WorkerBody extends RecyclerView.ViewHolder {
-        TextView title, description, date;
+        TextView title, description;
 
         public WorkerBody(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.task_title_id);
             description = itemView.findViewById(R.id.task_descri_id);
-
-            date = itemView.findViewById(R.id.textView9);
         }
     }
 }

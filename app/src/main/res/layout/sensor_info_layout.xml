@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardBackgroundColor="@color/g_green"
     app:cardCornerRadius="11dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#B8E0F6">
 
 
         <TextView
@@ -19,9 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/comfortaa_bold"
             android:text="Sensor ID"
-            android:textColor="@color/white"
+            android:textColor="@color/darkBlue"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,9 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/comfortaa"
             android:text="Sens1234"
-            android:textColor="@color/white"
+            android:textColor="@color/darkBlue"
             app:layout_constraintStart_toStartOf="@+id/textView24"
             app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
@@ -42,9 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/comfortaa_bold"
             android:text="Status"
-            android:textColor="@color/white"
+            android:textColor="@color/darkBlue"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView25"
             app:layout_constraintTop_toBottomOf="@+id/textView25" />
@@ -55,9 +55,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/comfortaa"
             android:text="TextView"
-            android:textColor="@color/white"
+            android:textColor="@color/darkBlue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView28"
             app:layout_constraintTop_toBottomOf="@+id/textView28" />

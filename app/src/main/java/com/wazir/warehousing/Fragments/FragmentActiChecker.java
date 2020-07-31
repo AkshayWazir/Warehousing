@@ -20,15 +20,13 @@ import com.wazir.warehousing.Adapters.AdapterActivityChecker;
 import com.wazir.warehousing.FCM.SharedPrefsManager;
 import com.wazir.warehousing.Interfaces.CheckerInteract;
 import com.wazir.warehousing.Interfaces.FragmentsClickEvent;
+import com.wazir.warehousing.ModelObject.Assignees;
 import com.wazir.warehousing.ModelObject.BodyObj;
 import com.wazir.warehousing.ModelObject.TitleObj;
 import com.wazir.warehousing.R;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class FragmentActiChecker extends Fragment {
     FragmentsClickEvent event;
@@ -62,7 +60,31 @@ public class FragmentActiChecker extends Fragment {
 
     void setRcView() throws ParseException {
         containerRcView.setLayoutManager(new LinearLayoutManager(context));
-        getTasks();
+        containerRcView.setAdapter(new AdapterActivityChecker(feedTask(), context));
+    }
+
+    ArrayList<Object> feedTask() {
+        ArrayList<Object> objects = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            objects.add(new TitleObj("Warehouse Mentainance", "12 July"));
+            for (int j = 0; j < 3; j++) {
+                BodyObj obj = new BodyObj();
+                if (j % 2 == 0) {
+                    obj.setChecked(true);
+                } else {
+                    obj.setChecked(false);
+                }
+                obj.setTimeOfTask("12 July");
+                obj.setTitle("Maintainable");
+                obj.setDescription("Some Long Description to make it very long so that it can fit and expand the bars and we know the actual size and fitting of the text");
+                obj.setAssignees(new ArrayList<Assignees>());
+                for (int k = 0; k < 7; k++) {
+                    obj.getAssignees().add(new Assignees("IDof", "Rakesh"));
+                }
+                objects.add(obj);
+            }
+        }
+        return objects;
     }
 
     void getTasks() {
@@ -78,20 +100,10 @@ public class FragmentActiChecker extends Fragment {
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                             if (snapshot.contains("checked")) {
                                 BodyObj obj = snapshot.toObject(BodyObj.class);
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-                                try {
-                                    Date date = sdf.parse(snapshot.getString("timeDate"));
-                                    obj.setTimeOfTask(date);
-                                } catch (ParseException ex) {
-                                    ex.printStackTrace();
-                                }
                                 objects.add(obj);
                             } else {
                                 objects.add(queryDocumentSnapshots.toObjects(TitleObj.class));
                             }
-                        }
-                        for (int i = 0; i < 3; i++) {
-
                         }
                         AdapterActivityChecker adapterActivityChecker = new AdapterActivityChecker(objects, context);
                         adapterActivityChecker.setWorker(worker);

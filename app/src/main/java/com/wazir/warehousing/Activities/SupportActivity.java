@@ -96,12 +96,14 @@ public class SupportActivity extends AppCompatActivity {
 
     void uploadImage() {
         Log.d(TAG, "uploadImage: started");
+        final String[] download = {""};
         if (mImageUri != null) {
             final String name = "uploads/" + System.currentTimeMillis() + "." + getFileExtension(mImageUri);
             storage.getReference().child(name).putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            download[0] = taskSnapshot.getUploadSessionUri().toString();
                             Handler handler = new Handler();
                             handler.postDelayed(
                                     new Runnable() {
@@ -134,7 +136,7 @@ public class SupportActivity extends AppCompatActivity {
                             SupportObject object = new SupportObject(
                                     titleTIL.getEditText().getText().toString(),
                                     descTIL.getEditText().getText().toString(),
-                                    reference.getDownloadUrl().toString(),
+                                    download[0],
                                     FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber(),
                                     SharedPrefsManager.getInstance(SupportActivity.this).getUserName());
                             FirebaseFirestore.getInstance().collection(SupportActivity.this.getResources().getString(R.string.rootName))

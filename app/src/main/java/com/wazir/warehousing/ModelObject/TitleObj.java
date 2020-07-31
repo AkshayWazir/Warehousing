@@ -1,16 +1,22 @@
 package com.wazir.warehousing.ModelObject;
 
 public class TitleObj {
-    String title;
-    String level1Id;
+    String title, date;
 
-    public TitleObj(String title) {
-        this.title = title;
-        this.level1Id = "";
+    public TitleObj() {
     }
 
-    public String getLevel1Id() {
-        return level1Id;
+    public TitleObj(String title, String date) {
+        this.title = title;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTitle() {

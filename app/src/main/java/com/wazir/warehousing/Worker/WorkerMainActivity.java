@@ -53,8 +53,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.wazir.warehousing.GloabalFunctions.Constants.FIRE_HAZ;
-
 public class WorkerMainActivity extends AppCompatActivity implements FragmentsClickEvent, CheckerInteract, ContactInteract {
     ChipNavigationBar navigationBar;
     // Firebase Stuff
@@ -144,7 +142,6 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
         fragContainer = findViewById(R.id.worker_fragment_container);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -190,17 +187,15 @@ public class WorkerMainActivity extends AppCompatActivity implements FragmentsCl
             json.put("to", token);
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title", "Staff Alert");
-            notificationObj.put("body", name + " Require Your Attention.");
+            notificationObj.put("body", name + "Require Your Attention.");
 
             JSONObject extraData = new JSONObject();
             extraData.put("EME_LOC", "Compartment 4");
             extraData.put("EME_CAT", "FIRE");
-            extraData.put("category", FIRE_HAZ);
-
+            extraData.put("category", "ALERT");
 
             json.put("notification", notificationObj);
             json.put("data", extraData);
-
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
                     json,

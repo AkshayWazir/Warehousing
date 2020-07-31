@@ -91,6 +91,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         sendOtpCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                otpGenerated.setVisibility(View.VISIBLE);
                 tempNumber = contactNumber.getEditText().getText().toString();
                 sendOtpCommand.setEnabled(false);
                 loading.setVisibility(View.VISIBLE);

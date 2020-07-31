@@ -47,7 +47,7 @@ public class CompAdapter extends RecyclerView.Adapter<CompAdapter.CompViewHolder
             }
         });
         SensorAdapter adapter = new SensorAdapter(objs.get(position).getSensors(), context);
-        holder.sensRcView.setLayoutManager(new GridLayoutManager(context, 3));
+        holder.sensRcView.setLayoutManager(new GridLayoutManager(context, 2));
         holder.sensRcView.setAdapter(adapter);
     }
 

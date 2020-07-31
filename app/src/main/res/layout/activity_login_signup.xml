@@ -5,14 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:animateLayoutChanges="true"
     tools:context=".LoginSignupActivity">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading_anim_view"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView27"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/new_loader" />
@@ -23,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Welcome back,"
+        android:fontFamily="@font/comfortaa"
+        android:text="Welcome back !"
         android:textColor="@color/darkBlue"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -38,9 +41,9 @@
         android:fontFamily="@font/open_sans"
         android:text="by Brainiacs 101"
         android:textColor="@color/darkBlue"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <ImageView
@@ -51,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:srcCompat="@drawable/warehouse_img" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -88,6 +91,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:theme="@style/darkInputDesign"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2">

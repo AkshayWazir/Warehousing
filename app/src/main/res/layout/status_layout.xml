@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:alpha="0.8"
     android:fadingEdgeLength="5dp"
-    app:cardBackgroundColor="@color/g_blue"
+    app:cardBackgroundColor="#4382BB"
     app:cardCornerRadius="7dp"
     app:cardElevation="5dp">
 
@@ -23,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/comfortaa_bold"
             android:text="Warehouse ID: 1245"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -34,6 +35,7 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/comfortaa_bold"
             android:text="capacity : 123"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,9 +44,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/id_cont_comp"
             android:layout_width="0sp"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

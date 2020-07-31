@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardCornerRadius="21dp"
+    app:cardCornerRadius="7dp"
     android:fadingEdgeLength="3dp">
 
     <TextView
@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:fontFamily="@font/comfortaa"
         android:text="Some Name"
         android:textSize="14dp"
         android:textColor="@color/darkBlue"/>
