@@ -1,48 +1,60 @@
 package com.wazir.warehousing.ModelObject;
 
-import java.util.Date;
+import static com.wazir.warehousing.GloabalFunctions.Constants.N_FIRE;
+import static com.wazir.warehousing.GloabalFunctions.Constants.N_FLOOD;
+import static com.wazir.warehousing.GloabalFunctions.Constants.N_HUMID;
+import static com.wazir.warehousing.GloabalFunctions.Constants.N_LIGHT;
+import static com.wazir.warehousing.GloabalFunctions.Constants.N_TEMP;
 
 public class NoticeObject {
-    int pri_str;
-    int cate;
-    String title, description, temp, moist, location;
-    Date date;
+    String date, title, desc;
+    String cate;
+    String temp, moist, light, loc;
 
     public NoticeObject() {
     }
 
-    public void setData(int category) {
-        this.cate = category;
-        setContent(this.cate);
+    public NoticeObject(String date, String cate, String temp, String moist, String light, String loc) {
+        this.date = date;
+        this.cate = cate;
+        this.temp = temp;
+        this.moist = moist;
+        this.light = light;
+        this.loc = loc;
+        makeNotice();
     }
 
-    void setContent(int category) {
-        switch (category) {
-            case (1):
-                this.title = "Temperature Rising";
-                this.description = this.temp + " C Rise in temperature has been Detected";
+    public void makeNotice() {
+        switch (this.cate) {
+            case N_FIRE:
+                this.title = "Fire Alert";
+                this.desc = this.loc + " is under Fire, please proceed with caution and apply appropriate measures";
                 break;
-            case (2):
-                this.title = "Moisture Increasing";
-                this.description = "There are elevated levels of Moisture in " + this.location + " to " + this.moist + "%";
+            case N_FLOOD:
+                this.title = "Flood Alert";
+                this.desc = this.loc + " is Flooded, please proceed with caution and apply appropriate measures";
+                break;
+            case N_HUMID:
+                this.title = "Humidity Surge";
+                this.desc = this.loc + " has sudden surge of Humidity of about " + this.moist + "% kindly look into it.";
+                break;
+            case N_LIGHT:
+                this.title = "Light Intensity";
+                this.desc = this.loc + " has increased light intensity of about " + this.light + "% kindly look into it";
+                break;
+            case N_TEMP:
+                this.title = "Temperature Variations";
+                this.desc = this.loc + " has increased temperature of about " + this.temp + "C kindly look into it";
                 break;
         }
     }
 
-    public int getPri_str() {
-        return pri_str;
+    public String getDate() {
+        return date;
     }
 
-    public void setPri_str(int pri_str) {
-        this.pri_str = pri_str;
-    }
-
-    public int getCate() {
-        return cate;
-    }
-
-    public void setCate(int cate) {
-        this.cate = cate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTitle() {
@@ -53,12 +65,20 @@ public class NoticeObject {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getCate() {
+        return cate;
+    }
+
+    public void setCate(String cate) {
+        this.cate = cate;
     }
 
     public String getTemp() {
@@ -77,19 +97,19 @@ public class NoticeObject {
         this.moist = moist;
     }
 
-    public String getLocation() {
-        return location;
+    public String getLight() {
+        return light;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLight(String light) {
+        this.light = light;
     }
 
-    public Date getDate() {
-        return date;
+    public String getLoc() {
+        return loc;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setLoc(String loc) {
+        this.loc = loc;
     }
 }

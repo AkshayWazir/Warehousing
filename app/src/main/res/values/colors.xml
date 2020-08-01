@@ -12,4 +12,11 @@
     <color name="g_red">#DB4437</color>
     <color name="g_blue">#4285F4</color>
     <color name="g_grey">#C6C9D0</color>
+    <color name="lightColor">#C6AC85</color>
+    <color name="ware_col">#CCD4BF</color>
+    <color name="com_col">#E7CBA9</color>
+    <color name="sen_col">#EEBAB2</color>
+    <color name="w_f_col">#37667E</color>
+    <color name="c_f_col">#37667E</color>
+    <color name="s_f_col">#ffffff</color>
 </resources>

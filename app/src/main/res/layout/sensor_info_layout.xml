@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    app:cardBackgroundColor="@color/sen_col"
     app:cardCornerRadius="11dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#B8E0F6">
+        android:layout_height="match_parent">
 
 
         <TextView
@@ -21,7 +21,7 @@
             android:layout_margin="8dp"
             android:fontFamily="@font/comfortaa_bold"
             android:text="Sensor ID"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/s_f_col"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
             android:layout_marginTop="4dp"
             android:fontFamily="@font/comfortaa"
             android:text="Sens1234"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/s_f_col"
             app:layout_constraintStart_toStartOf="@+id/textView24"
             app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
@@ -44,7 +44,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/comfortaa_bold"
             android:text="Status"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/s_f_col"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView25"
             app:layout_constraintTop_toBottomOf="@+id/textView25" />
@@ -57,7 +57,7 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/comfortaa"
             android:text="TextView"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/s_f_col"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView28"
             app:layout_constraintTop_toBottomOf="@+id/textView28" />

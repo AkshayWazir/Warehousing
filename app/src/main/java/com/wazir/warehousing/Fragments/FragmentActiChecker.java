@@ -2,6 +2,7 @@ package com.wazir.warehousing.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class FragmentActiChecker extends Fragment {
     Context context;
     CheckerInteract interact;
     boolean worker = false;
+    String TAG = "NOTICES";
 
 
     public FragmentActiChecker(FragmentsClickEvent event, Context context, CheckerInteract interact) {
@@ -46,11 +48,12 @@ public class FragmentActiChecker extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_acti_checker, container, false);
         containerRcView = view.findViewById(R.id.activity_rc_cotainer);
-        try {
-            setRcView();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        getTasks();
+//        try {
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
         return view;
     }
 
@@ -65,25 +68,31 @@ public class FragmentActiChecker extends Fragment {
 
     ArrayList<Object> feedTask() {
         ArrayList<Object> objects = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            objects.add(new TitleObj("Warehouse Mentainance", "12 July"));
-            for (int j = 0; j < 3; j++) {
-                BodyObj obj = new BodyObj();
-                if (j % 2 == 0) {
-                    obj.setChecked(true);
-                } else {
-                    obj.setChecked(false);
-                }
-                obj.setTimeOfTask("12 July");
-                obj.setTitle("Maintainable");
-                obj.setDescription("Some Long Description to make it very long so that it can fit and expand the bars and we know the actual size and fitting of the text");
-                obj.setAssignees(new ArrayList<Assignees>());
-                for (int k = 0; k < 7; k++) {
-                    obj.getAssignees().add(new Assignees("IDof", "Rakesh"));
-                }
-                objects.add(obj);
-            }
-        }
+
+        objects.add(new TitleObj("Warehouse Maintenance", "12 July"));
+
+        BodyObj obj1 = new BodyObj();
+        obj1.setChecked(false);
+        obj1.setTimeOfTask("12 July");
+        obj1.setTitle("Maintainable");
+        obj1.setDescription("Some Long Description to make it very long so that it can fit and expand the bars and we know the actual size and fitting of the text");
+        obj1.setAssignees(new ArrayList<Assignees>());
+        obj1.getAssignees().add(new Assignees("+2211", "Rakesh Kumar"));
+        obj1.getAssignees().add(new Assignees("+2211", "Suresh Kumar"));
+        obj1.getAssignees().add(new Assignees("+2211", "Jamesh Roshan"));
+        objects.add(obj1);
+
+        BodyObj obj2 = new BodyObj();
+        obj2.setChecked(false);
+        obj2.setTimeOfTask("12 July");
+        obj2.setTitle("Maintainable");
+        obj2.setDescription("Some Long Description to make it very long so that it can fit and expand the bars and we know the actual size and fitting of the text");
+        obj2.setAssignees(new ArrayList<Assignees>());
+        obj2.getAssignees().add(new Assignees("+2211", "Rakesh Kumar"));
+        obj2.getAssignees().add(new Assignees("+2211", "Suresh Kumar"));
+        obj2.getAssignees().add(new Assignees("+2211", "Jamesh Roshan"));
+        objects.add(obj2);
+
         return objects;
     }
 
@@ -98,17 +107,21 @@ public class FragmentActiChecker extends Fragment {
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                         objects.clear();
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                            if (snapshot.contains("checked")) {
+                            if (snapshot.getData().get("date") == null) {
                                 BodyObj obj = snapshot.toObject(BodyObj.class);
                                 objects.add(obj);
+                                Log.d(TAG, "onEvent: Body");
                             } else {
-                                objects.add(queryDocumentSnapshots.toObjects(TitleObj.class));
+                                Log.d(TAG, "onEvent: Title");
+                                objects.add(new TitleObj(
+                                        (String) snapshot.getData().get("title"),
+                                        (String) snapshot.getData().get("date")
+                                ));
                             }
                         }
                         AdapterActivityChecker adapterActivityChecker = new AdapterActivityChecker(objects, context);
-                        adapterActivityChecker.setWorker(worker);
-                        adapterActivityChecker.setInteract(interact);
                         containerRcView.setAdapter(adapterActivityChecker);
+                        containerRcView.setLayoutManager(new LinearLayoutManager(context));
                     }
                 });
 //        for (int i = 0; i < 10; i++) {

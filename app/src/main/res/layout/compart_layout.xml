@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardBackgroundColor="#84A6D6"
+    app:cardBackgroundColor="@color/com_col"
     app:cardCornerRadius="11dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/comfortaa_bold"
             android:text="Compartment ID: 14"
-            android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textColor="@color/c_f_col"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,7 @@
 
             android:fontFamily="@font/comfortaa_bold"
             android:text="Capacity : 124Qt"
-            android:textColor="@color/white"
+            android:textColor="@color/c_f_col"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView17" />
 
